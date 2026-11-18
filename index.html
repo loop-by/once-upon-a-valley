@@ -81,11 +81,41 @@
     @media(max-height:740px){.quest-bar{top:78px}.speech{font-size:13px;line-height:1.65;min-height:62px}.chat-head{min-height:69px}.portrait-frame{width:66px;height:66px;flex-basis:66px}.dialogue{padding:21px 13px 12px}.dialogue-wrap{bottom:max(8px,env(safe-area-inset-bottom))}.choice{min-height:36px;padding:7px 11px;font-size:12px}.controls{margin-top:9px;gap:6px}.tiny{margin-top:7px}.hud-inventory{display:none}.letter{top:16%;max-height:34%}}
     @media(max-height:630px){.quest-bar{display:none}.letter{top:12%;max-height:33%}.dialogue{padding:18px 11px 9px}.portrait-frame{height:55px;width:55px;flex-basis:55px}.chat-head{min-height:56px}.speech{font-size:12px;min-height:53px}.controls{margin-top:5px;gap:5px}.choice{font-size:11px;min-height:30px;padding:5px 9px}.tiny{display:none}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+    /* January winter: crisp original pixel art, softly falling square snowflakes */
+    html,body{background:#2b4758}
+    .game{background:#dcebf0;border-color:#374d5d;box-shadow:0 0 0 5px #91abb9,0 0 0 8px #344b5c,0 22px 65px rgba(12,33,49,.4)}
+    .world .map{object-fit:cover;image-rendering:pixelated}
+    .world::after{background:linear-gradient(0deg,rgba(50,78,101,.16),transparent 40%)}
+    .hud-box{background:linear-gradient(#8ca2b4 0 18%,#58748d 18% 80%,#3d5975 80%);border-color:#364f68;box-shadow:0 0 0 2px #bed2d9 inset,3px 4px 0 rgba(29,52,70,.38);color:#fff8e7;text-shadow:1px 1px #263e52}
+    .hud-flower{background:#eef9fe;box-shadow:0 -5px #eef9fe,0 5px #eef9fe,-5px 0 #eef9fe,5px 0 #eef9fe;transform:scale(.57) rotate(45deg)}
+    .quest-bar{color:#3a5366;background:#edf3e7;border-color:#64859a;box-shadow:0 0 0 2px #fff inset,3px 5px 0 #3b576a}
+    .quest-bar::before{content:"❄";color:#5686a8}
+    .quest-bar::after{background:#fff}
+    .preview-stamp{text-shadow:1px 2px #4c6379}
+    .tap-mail{top:43%;right:13%}
+    .dialogue{background:#fff0ce;border-color:#8c6347;box-shadow:0 0 0 3px #4e403b,0 0 0 4px #bf9163 inset,0 0 0 9px #ffe6b9 inset,7px 8px 0 #4a6a7b}
+    .speaker-tag{background:#5e8194;border-color:#385266;color:#fff9e9;text-shadow:1px 1px #2e4b61}
+    .portrait-frame{background:#e0e8e8;border-color:#587789;box-shadow:0 0 0 2px #e4f1ef inset,3px 4px 0 #849dae}
+    .speech::after{color:#6485a0}
+    .choice.primary{background:#6c91aa;border-color:#395976;color:#fffaf1;box-shadow:0 0 0 2px #bdd3e2 inset,3px 4px 0 rgba(44,68,88,.4)}
+    .choice.primary::before{color:#fff}
+    .choice.secondary{background:#fff0d2;border-color:#a17b59}
+    .letter{background:#fff3d9;border-color:#6b8598;box-shadow:0 0 0 3px #405a6b,0 0 0 6px #e1eaf0 inset,8px 10px 0 rgba(40,59,76,.4)}
+    .letter::before{content:"❄  ·  ✉  ·  ❄";color:#7196b2}
+    .event-info{background:#fcf8ed;border-color:#aac3cf}
+    .complete{background:#fff3d9;border-color:#6b8598;box-shadow:0 0 0 3px #405a6b,0 0 0 6px #e1eaf0 inset,7px 9px 0 rgba(40,59,76,.4)}
+    .slot{background:#6f8fa8;border-color:#48677c;box-shadow:inset 0 0 0 2px #c5d7df,2px 3px #354c5d}
+    .slot.active{border-color:#edfaff;box-shadow:inset 0 0 0 2px #c5d7df,0 0 0 2px #354c5d,2px 3px #354c5d}
+    .snowfall{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none}
+    .snowfall .flake{position:absolute;display:block;top:-22px;width:3px;height:3px;background:#fff;box-shadow:2px 2px 0 rgba(230,243,251,.7);animation:fall var(--duration) linear var(--delay) infinite}
+    @keyframes fall{from{transform:translate3d(0,-10px,0)}to{transform:translate3d(var(--drift),105dvh,0)}}
+    @media (prefers-reduced-motion:reduce){.snowfall .flake{animation:none;display:none}}
   </style>
 </head>
 <body>
   <main class="game" id="game" data-step="hello" data-scene="village" aria-label="결혼식 초대장 인터랙티브 게임">
-    <div class="world" aria-hidden="true"><img class="map village" src="assets/winter-village.svg" alt="" /><img class="map court" src="assets/winter-courthouse.svg" alt="" /></div>
+    <div class="world" aria-hidden="true"><img class="map village" src="assets/winter-village.svg" alt="" /><img class="map court" src="assets/winter-courthouse.svg" alt="" /></div><div class="snowfall" id="snowfall" aria-hidden="true"></div>
     <div class="hud"><div class="hud-box"><span class="hud-label">✉️ 겨울의 퀘스트</span><div>눈 오는 날의 초대</div></div><div class="hud-box"><div> <span class="hud-flower"></span> 1월의 겨울 마을</div><div class="hud-time">❄ 09:20</div></div></div>
     <span class="preview-stamp">DEMO · PREVIEW</span>
     <div class="quest-bar" id="quest-bar">마을 우체부와 대화하기</div>
