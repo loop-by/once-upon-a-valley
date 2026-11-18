@@ -46,13 +46,24 @@ function render(chapter, message, mood, item = '') {
   byId('speech').textContent = message;
   byId('mood').textContent = mood;
   document.querySelector('figure img').src = chapter === 2 || chapter === 5 ? 'assets/smile.png' : 'assets/couple.png';
+  scene.dataset.chapter = chapter;
+  byId('keepsake').hidden = chapter < 2;
   const prop = byId('item');
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
     envelope.src = chapter === 1 ? 'assets/sealed.png' : 'assets/opened.png';
     envelope.alt = '';
-    prop.append(envelope);
+    if (chapter === 1) {
+      const open = document.createElement('button');
+      open.className = 'envelope';
+      open.setAttribute('aria-label', '봉인된 편지 열기');
+      open.append(envelope);
+      open.onclick = invitation;
+      prop.append(open);
+    } else {
+      prop.append(envelope);
+    }
   } else {
     prop.textContent = item;
   }
@@ -72,7 +83,7 @@ function welcome() {
 }
 function letter() {
   render(1, '마침 기다리던 참이야. 이 편지, 받아 줄래?', '♪');
-  paragraph('크림색 봉투에 작은 별 모양 밀랍 인장이 찍혀 있다.');
+  paragraph('두 사람이 건넨 봉투를 톡 눌러 보자.');
   button('봉투 받아 열기　✉', invitation);
 }
 function invitation() {
@@ -82,39 +93,55 @@ function invitation() {
 }
 function details() {
   render(3, '여기가 우리가 약속을 나눌 곳이야.', '✦');
-  paragraph('예식 날짜　' + date + '\n예식 시간　' + time + '\n장소　Howard County Circuit Courthouse');
+  weddingInfo(byId('content'));
+  button(finished ? '완료한 답장 보기' : '답장 퀘스트 시작　▸', finished ? done : () => attendance('wedding'));
+}
+function weddingInfo(container) {
+  const info = document.createElement('dl');
+  info.className = 'event-info';
+  for (const [label, value] of [['날짜', date], ['시간', time], ['장소', 'Howard County Circuit Courthouse']]) {
+    const term = document.createElement('dt');
+    const detail = document.createElement('dd');
+    term.textContent = label;
+    detail.textContent = value;
+    info.append(term, detail);
+  }
+  container.append(info);
   const map = document.createElement('a');
   map.href = 'https://maps.app.goo.gl/FnhP4NMmC6YWfaNEA';
   map.target = '_blank';
   map.rel = 'noopener noreferrer';
   map.textContent = 'Google 지도에서 보기 ↗';
-  byId('content').append(map);
-  button(finished ? '완료한 답장 보기' : '답장 퀘스트 시작　▸', finished ? done : () => attendance('wedding'));
+  map.className = 'map-link';
+  container.append(map);
 }
-function attendance(key) {
+weddingInfo(byId('book-details'));
+byId('keepsake').onclick = () => byId('letter-book').showModal();
+function attendance(key, afterChoice) {
   const ceremony = key === 'wedding';
-  render(4, ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝나면 함께 점심을 먹을래?', '♪');
+  render(4, ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝난 뒤 점심에도 참석해줄 수 있을까?', '♪');
   for (const value of ['참석','불참']) {
     const label = value === '참석' ? '응, 함께할게' : '아쉽지만 어려워';
     button((reply[key] === value ? '✓ ' : '') + label, () => {
       reply[key] = value;
-      if (ceremony) attendance('lunch');
+      if (afterChoice) afterChoice();
+      else if (ceremony) attendance('lunch');
       else guest();
     });
   }
 }
-function guest() {
+function guest(afterSave = note) {
   render(4, '편지에 어떤 이름을 적어 줄까?', '♡');
   const input = field('name', '하객 이름 (필수)');
   const next = () => {
     input.setCustomValidity(input.value.trim() ? '' : '이름을 입력해 주세요.');
     if (!input.reportValidity()) return;
     reply.name = input.value.trim();
-    note();
+    afterSave();
   };
   input.oninput = () => input.setCustomValidity('');
   input.onkeydown = e => { if (e.key === 'Enter' && !e.isComposing) next(); };
-  button('다음　▸', next);
+  button(afterSave === review ? '수정한 답장 확인하기' : '다음　▸', next);
 }
 function note() {
   render(4, '마지막으로, 우리에게 남기고 싶은 말이 있어?', '♥');
@@ -123,10 +150,25 @@ function note() {
 }
 function review() {
   render(4, '편지를 봉인하기 전에 한 번 읽어 볼래?', '✉');
-  paragraph(reply.name + '님의 답장\n법원 예식　' + reply.wedding + '\n예식 후 점심　' + reply.lunch + '\n축하 메시지　' + (reply.note || '없음'));
+  for (const [key, label, edit] of [
+    ['name', '이름', () => guest(review)],
+    ['wedding', '예식', () => attendance('wedding', review)],
+    ['lunch', '점심', () => attendance('lunch', review)],
+    ['note', '메시지', note],
+  ]) {
+    const row = document.createElement('div');
+    row.className = 'reply-line';
+    const value = document.createElement('span');
+    value.textContent = label + '　' + (reply[key] || '없음');
+    const change = document.createElement('button');
+    change.textContent = '수정';
+    change.setAttribute('aria-label', label + ' 수정');
+    change.onclick = edit;
+    row.append(value, change);
+    byId('content').append(row);
+  }
   paragraph('지금은 미리보기예요. 답장은 이 화면에서만 확인할 수 있어요.');
   button('답장 봉인하기　✦', () => { finished = true; done(); });
-  button('내용 수정하기', () => attendance('wedding'));
 }
 function done() {
   render(5, reply.name + '님, 답장을 완성했어요!', '♥', '✦ ♥ ✦');

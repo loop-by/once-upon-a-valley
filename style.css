@@ -37,3 +37,58 @@ figure img { width: 128px; }
   .quest { gap: 6px; }
   .quest span { font-size: 11px; }
 }
+
+/* Keep the street and its characters above the dialogue at every height. */
+.scene, .scene.court { background: #324459; }
+.landscape {
+  margin: 0 calc(-1 * clamp(10px, 2vw, 24px)) 0;
+  background: url(assets/twilight.png) center bottom / cover;
+}
+.court .landscape { background-image: url(assets/plaza.png); }
+.landscape .hud { inset-inline: 12px; }
+.scene:not([data-chapter="0"]) .title { display: none; }
+.villagers {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 114px;
+  image-rendering: pixelated;
+}
+.court .villagers { display: none; }
+#item { bottom: calc(3% + 73px); }
+.envelope, .envelope:hover {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.envelope img {
+  animation: hover-letter 1.6s ease-in-out infinite alternate;
+}
+@keyframes hover-letter { to { translate: 0 -5px; } }
+.keepsake {
+  position: absolute;
+  right: 12px;
+  top: 54px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  z-index: 1;
+}
+.keepsake img { width: 32px; display: block; margin: auto; image-rendering: pixelated; }
+.quest { margin-top: 8px; }
+.event-info { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 8px 0; }
+.event-info dt { color: #675046; }
+.event-info dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.map-link, #content .map-link { display: inline-flex; align-items: center; min-height: 44px; padding: 4px 12px; border: 2px solid #a98660; margin: 4px 0 12px; }
+#letter-book { width: min(360px, 92vw); color: #41323a; background: #f4e3c1; border: 6px ridge #a78260; }
+#letter-book::backdrop { background: #182335b8; }
+.reply-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid #cdaf86; }
+.reply-line span, #speech, #speaker { overflow-wrap: anywhere; }
+.reply-line button { flex: none; min-height: 44px; color: #554236; background: transparent; border: 0; text-decoration: underline; }
+.reply-line + p { margin-top: 8px !important; }
+@media (max-width: 620px) {
+  .landscape { margin-inline: -8px; }
+  .title { top: 14%; }
+  .title h1 { font-size: clamp(28px, 8vw, 41px); }
+}
