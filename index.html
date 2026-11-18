@@ -160,6 +160,26 @@
     const $=id=>document.getElementById(id);
     const game=$('game'), controls=$('controls');
     const state={step:'hello',attending:null,name:'',note:''};
+    // Light pixel snow; no external scripts or tracking.
+    function createSnowfall(){
+      const layer=document.getElementById('snowfall');
+      let seed=202701;
+      function random(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
+      for(let i=0;i<34;i++){
+        const flake=document.createElement('i');
+        flake.className='flake';
+        flake.style.left=(random()*100).toFixed(2)+'%';
+        flake.style.setProperty('--duration',(8+random()*12).toFixed(1)+'s');
+        flake.style.setProperty('--delay',(-random()*20).toFixed(1)+'s');
+        flake.style.setProperty('--drift',(random()*60-30).toFixed(0)+'px');
+        flake.style.opacity=(.34+random()*.56).toFixed(2);
+        const size=2+Math.floor(random()*3);
+        flake.style.width=size+'px';
+        flake.style.height=size+'px';
+        layer.appendChild(flake);
+      }
+    }
+    createSnowfall();
     $('date-label').textContent=CONFIG.date;$('time-label').textContent=CONFIG.time;$('venue-label').textContent=CONFIG.venue;$('signature').textContent=CONFIG.names;
     function wipe(){controls.replaceChildren();$('tiny').textContent='';}
     function talk(who,speech){$('speaker-tag').textContent=who==='post'?'마을 우체부 · 루루':who==='flower'?'꽃집 주인 · 모모':CONFIG.names;$('portrait').src=PORTRAITS[who];$('portrait').alt=who==='post'?'우체부 NPC 초상화':who==='flower'?'꽃집 주인 NPC 초상화':'결혼식 주인공 NPC 초상화';$('speech').textContent=speech;}
