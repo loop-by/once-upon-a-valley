@@ -46,7 +46,16 @@ function render(chapter, message, mood, item = '') {
   byId('speech').textContent = message;
   byId('mood').textContent = mood;
   document.querySelector('figure img').src = chapter === 2 || chapter === 5 ? 'assets/smile.png' : 'assets/couple.png';
-  byId('item').textContent = item;
+  const prop = byId('item');
+  prop.replaceChildren();
+  if (chapter === 1 || chapter === 2) {
+    const envelope = document.createElement('img');
+    envelope.src = chapter === 1 ? 'assets/sealed.png' : 'assets/opened.png';
+    envelope.alt = '';
+    prop.append(envelope);
+  } else {
+    prop.textContent = item;
+  }
   byId('place').textContent = chapter >= 3 ? '⌖　눈 내린 법원' : '⌖　별빛 마을';
   scene.classList.toggle('court', chapter >= 3);
   byId('actions').replaceChildren();
@@ -62,12 +71,12 @@ function welcome() {
   button('두 사람에게 인사하기　▸', letter);
 }
 function letter() {
-  render(1, '마침 기다리던 참이야. 이 편지, 받아 줄래?', '♪', '✉');
+  render(1, '마침 기다리던 참이야. 이 편지, 받아 줄래?', '♪');
   paragraph('크림색 봉투에 작은 별 모양 밀랍 인장이 찍혀 있다.');
   button('봉투 받아 열기　✉', invitation);
 }
 function invitation() {
-  render(2, '우리, 결혼해요!', '♥', '💌');
+  render(2, '우리, 결혼해요!', '♥');
   paragraph('소중한 당신에게\n눈꽃이 내려앉은 겨울 마을에서 평생을 함께하기로 했어요. 우리 이야기의 첫 장을 함께 열어 주세요.\n사랑을 담아, ' + couple);
   button('두 사람과 법원으로　▸', details);
 }
@@ -84,7 +93,7 @@ function details() {
 }
 function attendance(key) {
   const ceremony = key === 'wedding';
-  render(4, ceremony ? '법원 예식에 함께할 수 있을까?' : '식이 끝나면 함께 점심을 먹을래?', '♪');
+  render(4, ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝나면 함께 점심을 먹을래?', '♪');
   for (const value of ['참석','불참']) {
     const label = value === '참석' ? '응, 함께할게' : '아쉽지만 어려워';
     button((reply[key] === value ? '✓ ' : '') + label, () => {
