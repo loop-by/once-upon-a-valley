@@ -66,6 +66,8 @@
     .letter p{margin:3px 0 9px;line-height:1.65;font-size:12px;font-weight:600;word-break:keep-all}
     .letter small{font-size:10px;letter-spacing:1px;color:#b47d52;font-weight:900}
     .event-info{padding:9px 7px;border:2px dashed #bc8958;background:#fff5da;line-height:1.9;font-size:11px;font-weight:800;text-align:left}
+    .venue-link{color:#75502e;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;display:inline-block;min-height:36px;line-height:36px}
+    .venue-link:focus-visible{outline:3px solid #b7793d;outline-offset:3px}
     .game[data-step="letter"] .letter{display:block;animation:appear .3s steps(4,end) both}
     .complete{padding:17px 12px 16px;background:#ffebba;border:6px solid #955e36;box-shadow:0 0 0 3px #553725,0 0 0 6px #ffdc94 inset,7px 9px 0 rgba(31,47,27,.5)}
     .complete .star{font-size:36px;line-height:1.2;color:#e5a734;text-shadow:3px 3px #aa7443}
@@ -93,7 +95,7 @@
       <small>TO. 소중한 당신에게</small>
       <h2>우리, 결혼해요! ♡</h2>
       <p>작은 결혼식을 준비하고 있어요.<br/>우리의 새로운 시작을<br/>함께 축하해 주실래요?</p>
-      <div class="event-info"><div>✿ 날짜 : <span id="date-label">추후 안내</span></div><div>✿ 시간 : <span id="time-label">추후 안내</span></div><div>✿ 장소 : <span id="venue-label">Howard County Courthouse</span></div></div>
+      <div class="event-info"><div>✿ 날짜 : <span id="date-label">추후 안내</span></div><div>✿ 시간 : <span id="time-label">추후 안내</span></div><div>✿ 장소 : <a id="venue-link" class="venue-link" href="https://maps.app.goo.gl/FnhP4NMmC6YWfaNEA" target="_blank" rel="noopener noreferrer" aria-label="Howard County Courthouse Google 지도에서 열기"><span id="venue-label">Howard County Courthouse</span> ↗ 지도 열기</a></div></div>
       <p style="text-align:right;font-size:10px;margin-top:9px">사랑을 담아, <span id="signature">우리 두 사람</span> ♡</p>
     </section>
     <section class="complete" aria-label="퀘스트 완료"><div class="star">✦ ✉ ✦</div><div class="eng">QUEST COMPLETE!</div><h2>답장 퀘스트 완료!</h2><p id="finish-desc">답장이 완성되었습니다.</p></section>
@@ -106,8 +108,20 @@
   </main>
   <div class="desktop-note">작은 마을의 결혼 퀘스트 · 모바일 화면에 최적화되어 있습니다</div>
   <script>
-    // 날짜와 이름은 이곳에서 나중에 수정하세요. 현재 RSVP는 제출하지 않는 디자인 미리보기입니다.
-    const CONFIG = { names:'우리 두 사람', date:'추후 안내', time:'추후 안내', venue:'Howard County Courthouse' };
+    // 실제 이름, 날짜, 시간은 GitHub 소스에 저장하지 않고 링크의 # 부분에서 읽습니다.
+    // 예: #names=%EB%AF%BC%EC%A7%80%EC%99%80%20%EC%A4%80%ED%98%B8&date=2027-05-15&time=11%3A00
+    // RSVP는 현재 저장/전송되지 않는 디자인 미리보기입니다.
+    const invitationParams = new URLSearchParams(window.location.hash.slice(1));
+    function invitationValue(key, fallback, maxLength=80){
+      const value=(invitationParams.get(key)||'').trim();
+      return value ? value.slice(0,maxLength) : fallback;
+    }
+    const CONFIG = {
+      names: invitationValue('names', invitationValue('couple', '우리 두 사람')),
+      date: invitationValue('date', '추후 안내', 60),
+      time: invitationValue('time', '추후 안내', 60),
+      venue: 'Howard County Courthouse'
+    };
     const PORTRAITS={
       post: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAAEDUlEQVR42u3cz4uMARjA8RmGo1olhdoNpZQbymEP67A3LSdSm4MrJQoptKu0ym5q9x/QXjjISg42tYc9KNxIKbS0q7RlS7mQHYepEbPNO/O+77y/5vM5bRremXe+PY93dvctLz4bKQVaLZfita7qoA76z98uQQYIESGCEBEiCBEhghDJtEr8H2y2wkEd1ETEagYhIkQQIkIEISJEECJCBCEiRBAiQgQhIkQQIgVUabPbmO9lcfX1K+9BKm7s29+h9zRcSCYiVjMIESGCEBEiCBEhQpA2P9BO5V4WBXXz0K4Qf+vK8w8xP49s3J/ERMRqBiEiRBAiRbhqbsfwo9nAx/Tt3Ow9SEUr704T00ODJiJWMwgRIYIQESIIESFCsirpHn7h47euPfUnu/i1m4gIEZqt5lTuOEEBZ1qkkExErGYQIkIEISJEECJChCCVJD+sXvr8yxkvrGghmYhYzSBEhAhCRIggRIQIQTr4y1ONN4w6PPnEGcdERIggRIQIQiQ/youzoykefurOQ+9Bus6cO2YighDJkjY/0HZ/kgLOojTe04aDmohYzSBEhAhCRIggRIQIQdr8QLvoH1ZfO3+qSC9ndOJu4GOmJmZC/MtRv0PdEJKJiNUMIVdzNH7oCxMRIYIQESIIESGCEBEiCBEhghARIggRIULcKu4iQkwzLVJIJiJWM/xdzflRsN9swkREiJCv1Rz7Ir4+fq/1B49cOJHYK+3cE2vlHLbyu88mIlYzJLqau+bD6jfLPwIf82DstCcWUrSQTESsZhAiQgQhIkQQIkIEISJEECK5Uumel5rZb9fm4PvIJiJCBKs5D5beLwc+ZvvuLU6UiYgQoYOr2f1JiGcAVk1ErGYo5FXzymKY/wb07KjGcvQErojDvcDYX6mJiNUMVnNprVthuBtY9HNoIoIQKdpqztiH1Y1Xhd9Xfte+2NSzvgBvT5PL3ny/0oaQTESsZsj+VXO619H3p+eSf4HHhwe67WLZRESIIESECELEVXMe1S9gy3v6O32s6rt5J9xERIhgNdubJiIIEas5SfWfksJEBCGSs9XsLiLEM9MihWQiYjVDuKvmS7eftv7g1YG+//6k1/kuirZKuHVx0ETEaoYOrebsK8avM5uIIES6ejXn+cPqn9u21r7Y+OWr97J+Nj7176190Tv/NhPPrIXGTESsZhAiQgQhIkQQIkKEIIl+r7n+QWuOnH35otOHmDxwUIgmIkKEVFYzCYv9/0Lr5hZMRKxmECJCBCHiqjl36j+c7MnnZABWTUSsZhAiQgQh4qq5a22otvHgyzOPa1+MHT1iIoIQsZqdgubGh8Ksy/q2ZW0NNyExEbGaQYgIEYSIEEGICBGEiBBBiAgRhIgQQYgIEYRIIfwBK8O8YBk8bnoAAAAASUVORK5CYII=',
       flower: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAAECklEQVR42u3dPUiUDxzA8TNuqUEQTYkMlAhaIqixxSGKoIZyaE2yKYggKWgJl0BwaszCHINsKYLAwaW1xYYgIkEjzEIQehmCGg4egiuf5+55f57PZ7rh/j738uX367nT59+zvjTdCNM/tK+RqK8bnxzUQf+2qwEFIESECEJEiCBEhAhCpNB6fqzc9ypgIoIQESIIESGCEBEiCBEhghARIggRIYIQESIIESFCEpod3dsFNBw0pYOaiFjNIESECEJEiCBEhAhhXHIEExGEiBBBiAgRhIgQQYgIEYSIEKFTTS9BSS3OPsj+oONTkyYiVjMIESGCEKnVWXO+V5zoHzra1Q/4HOeguTzTLA+ai5jP1ETEaoZgNZfxQefyWS4mIkIEISJEECI1PGvO5dPUanyES4LvqYmI1QzBak7zhw9Gv+uHpZeh9xk9ebp1Y3zqduidF2fvendNRBAiQgQhIkQQIkIEISJEECJChHQU5Y+ngu+RMRFBiFjN0dXnAhqkqj0kExGrGTI5a45yza7BLn6u3742EUGICBGEiBChgGfNlf+w+sLElSo9nafzc8n+wOASqTH/F1TtIZmIWM3Q3WpOarAHolw8BBMRhIjVnOGy9q0xJiJCBCEiRBAiQgQhIkQQIkIEIVI6TVcRIRExQzIRsZohWM0leqwV+8smTESECOVazYkv4jszD6PfefrW5cyeaXoPLMprmPjfPpuIWM0QczXX58PqN5vfQu+zOHvNA+tOzJBMRKxmECJCBCEiRBAiQgQhIkQQIqXSrM9TLezXtcX/HtlERIhgNZfCx7eroffZf3jEC2UiIkRIbzW7PgmJaA/JRMRqhmqcNW+tfu/iv+ob2ZPI0TM4I+7uCSb+TE1ErGawmhv/uhSGq4HFfw1NRBAiFVvNRfuwuv2scHtzu3Wjd29vBd6eHU57S/1M20MyEbGaofhnzfmeRz+ef579E7w4cbZuJ8smIkIEISJEECLOmssoOIHtOXgs7WP9fv/aC24iIkSwmu1NExGEiNWcpeC3pDARQYiUazW7igiJiBmSiYjVDN2dNU/eWIhzsDM2fFV0VMLMzVMmIlYzpLSad3DpyEjofTa+vEv7+VTjz5mLb4e3+9HKqomI1QxxVnOpP6x+9Wy5dePEuTHv5e7RgdaNoYFDmf1bKIoojZmIWM0gRIQIQqSYZ81egsrYWhtu3Th+/npKh3gxd9VExGqGKq3m4INWMBERIjhrrrNf68sdNDE8lv0/rkxErGYQIkIEIeKsOT3BLyfX2c+10jzU9uuTmIhYzSBEhAhCxFkzub3N///62EQEIWI1Q/tFSExErGawmqun78B668bSvScmIggRIYIQESIIESGCEBEiCBEhghARIgiR2vgDtg7M57d097AAAAAASUVORK5CYII=',
@@ -118,7 +132,7 @@
     const state={step:'hello',attending:null,name:'',note:''};
     $('date-label').textContent=CONFIG.date;$('time-label').textContent=CONFIG.time;$('venue-label').textContent=CONFIG.venue;$('signature').textContent=CONFIG.names;
     function wipe(){controls.replaceChildren();$('tiny').textContent='';}
-    function talk(who,speech){$('speaker-tag').textContent=who==='post'?'마을 우체부 · 루루':who==='flower'?'꽃집 주인 · 모모':'우리 두 사람';$('portrait').src=PORTRAITS[who];$('portrait').alt=who==='post'?'우체부 NPC 초상화':who==='flower'?'꽃집 주인 NPC 초상화':'결혼식 주인공 NPC 초상화';$('speech').textContent=speech;}
+    function talk(who,speech){$('speaker-tag').textContent=who==='post'?'마을 우체부 · 루루':who==='flower'?'꽃집 주인 · 모모':CONFIG.names;$('portrait').src=PORTRAITS[who];$('portrait').alt=who==='post'?'우체부 NPC 초상화':who==='flower'?'꽃집 주인 NPC 초상화':'결혼식 주인공 NPC 초상화';$('speech').textContent=speech;}
     function btn(label,action,style='primary'){let b=document.createElement('button');b.type='button';b.className=`choice ${style}`;b.textContent=label;b.addEventListener('click',action);controls.appendChild(b);return b;}
     function field(tag,placeholder,value,max){let x=document.createElement(tag);x.className='field';x.placeholder=placeholder;x.value=value;x.maxLength=max;x.setAttribute('aria-label',placeholder);controls.appendChild(x);return x;}
     function go(step){state.step=step;render();}
@@ -127,7 +141,7 @@
     function render(){game.dataset.step=state.step;game.dataset.scene=scenes[state.step];$('quest-bar').textContent=qlog[state.step];wipe();
       switch(state.step){
       case 'hello':
-        talk('post','어, 처음 보는 얼굴인데?\n마침 너에게 온 편지가 있어!');
+        talk('post',CONFIG.names==='우리 두 사람'?'어, 처음 보는 얼굴인데?\n마침 너에게 온 편지가 있어!':`어, 처음 보는 얼굴인데?\n${CONFIG.names}에게서 특별한 편지가 왔어!`);
         btn('안녕! 무슨 편지야?',()=>go('mail'));
         $('tiny').textContent='화면을 터치하며 진행하는 작은 이야기 · 약 1분';break;
       case 'mail':
@@ -137,7 +151,7 @@
       case 'letter':
         talk('couple','짜잔! 우리 결혼해! ♡\n그날 함께해 준다면 정말 기쁠 거야.');
         btn('초대에 답장하기 ♡',()=>go('attendance'));
-        $('tiny').textContent='결혼식 날짜와 시간은 아직 입력되지 않았어요.';break;
+        $('tiny').textContent=CONFIG.date==='추후 안내'||CONFIG.time==='추후 안내'?'결혼식 날짜와 시간은 아직 입력되지 않았어요.':'장소를 누르면 Google 지도를 열 수 있어요.';break;
       case 'attendance':
         talk('flower','어서 와! 특별한 날에 초대받았구나.\n그날 우리와 함께할 수 있니?');
         btn('응! 꼭 참석할게 ♡',()=>{state.attending='참석';go('name')});
