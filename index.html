@@ -26,10 +26,6 @@
     .quest-bar::before{content:"✦";margin-right:8px;color:#bd7e33}
     .quest-bar::after{content:"";position:absolute;top:-5px;left:10px;right:10px;height:2px;background:#f9cd80}
     .preview-stamp{position:absolute;z-index:5;top:64px;right:12px;color:#f8ebc1;font-size:8px;font-weight:900;letter-spacing:1.3px;text-shadow:1px 2px #425334}
-    .tap-mail{display:none;position:absolute;top:45.3%;right:17%;height:64px;width:55px;border:0;background:transparent;z-index:4;animation:bob 1.1s alternate ease-in-out infinite}
-    .tap-mail::before{content:"▼";position:absolute;top:-18px;left:19px;color:#fff3ac;text-shadow:2px 2px #553f34;font-size:18px}
-    .game[data-step="mail"] .tap-mail{display:block}
-    @keyframes bob{to{transform:translateY(-6px)}}
     .dialogue-wrap{position:absolute;z-index:10;left:14px;right:14px;bottom:max(17px,env(safe-area-inset-bottom));}
     .dialogue{position:relative;background:var(--paper);border:6px solid #8d522e;box-shadow:0 0 0 3px #513223,0 0 0 4px #b77b43 inset,0 0 0 9px #fce1a3 inset,7px 8px 0 #293d27;padding:24px 17px 16px}
     .dialogue::after{content:"";pointer-events:none;position:absolute;inset:11px;border:1px solid #dcaa65}
@@ -93,7 +89,6 @@
     .quest-bar::before{content:"❄";color:#5686a8}
     .quest-bar::after{background:#fff}
     .preview-stamp{text-shadow:1px 2px #4c6379}
-    .tap-mail{top:43%;right:13%}
     .dialogue{background:#fff0ce;border-color:#8c6347;box-shadow:0 0 0 3px #4e403b,0 0 0 4px #bf9163 inset,0 0 0 9px #ffe6b9 inset,7px 8px 0 #4a6a7b}
     .speaker-tag{background:#5e8194;border-color:#385266;color:#fff9e9;text-shadow:1px 1px #2e4b61}
     .portrait-frame{background:#e0e8e8;border-color:#587789;box-shadow:0 0 0 2px #e4f1ef inset,3px 4px 0 #849dae}
@@ -118,8 +113,7 @@
     <div class="world" aria-hidden="true"><img class="map village" src="assets/winter-village.svg" alt="" /><img class="map court" src="assets/winter-courthouse.svg" alt="" /></div><div class="snowfall" id="snowfall" aria-hidden="true"></div>
     <div class="hud"><div class="hud-box"><span class="hud-label">✉️ 겨울의 퀘스트</span><div>눈 오는 날의 초대</div></div><div class="hud-box"><div> <span class="hud-flower"></span> 1월의 겨울 마을</div><div class="hud-time">❄ 09:20</div></div></div>
     <span class="preview-stamp">DEMO · PREVIEW</span>
-    <div class="quest-bar" id="quest-bar">마을 우체부와 대화하기</div>
-    <button id="tap-mail" class="tap-mail" aria-label="우체통에서 편지 열기"></button>
+    <div class="quest-bar" id="quest-bar">신랑과 신부 만나기</div>
     <div class="hud-inventory" aria-hidden="true"><div class="slot active">✉️</div><div class="slot">❄️</div><div class="slot">♡</div></div>
     <section class="letter" aria-label="결혼식 초대장">
       <small>TO. 소중한 당신에게</small>
@@ -131,8 +125,8 @@
     <section class="complete" aria-label="퀘스트 완료"><div class="star">✦ ✉ ✦</div><div class="eng">QUEST COMPLETE!</div><h2>답장 퀘스트 완료!</h2><p id="finish-desc">답장이 완성되었습니다.</p></section>
     <div class="dialogue-wrap"><section class="dialogue" aria-live="polite" aria-atomic="true">
       <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-      <div class="speaker-tag" id="speaker-tag">마을 우체부 · 루루</div>
-      <div class="chat-head"><div class="portrait-frame"><img id="portrait" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAAEDUlEQVR42u3cz4uMARjA8RmGo1olhdoNpZQbymEP67A3LSdSm4MrJQoptKu0ym5q9x/QXjjISg42tYc9KNxIKbS0q7RlS7mQHYepEbPNO/O+77y/5vM5bRremXe+PY93dvctLz4bKQVaLZfita7qoA76z98uQQYIESGCEBEiCBEhghDJtEr8H2y2wkEd1ETEagYhIkQQIkIEISJEECJCBCEiRBAiQgQhIkQQIgVUabPbmO9lcfX1K+9BKm7s29+h9zRcSCYiVjMIESGCEBEiCBEhQpA2P9BO5V4WBXXz0K4Qf+vK8w8xP49s3J/ERMRqBiEiRBAiRbhqbsfwo9nAx/Tt3Ow9SEUr704T00ODJiJWMwgRIYIQESIIESFCsirpHn7h47euPfUnu/i1m4gIEZqt5lTuOEEBZ1qkkExErGYQIkIEISJEECJChCCVJD+sXvr8yxkvrGghmYhYzSBEhAhCRIggRIQIQTr4y1ONN4w6PPnEGcdERIggRIQIQiQ/youzoykefurOQ+9Bus6cO2YighDJkjY/0HZ/kgLOojTe04aDmohYzSBEhAhCRIggRIQIQdr8QLvoH1ZfO3+qSC9ndOJu4GOmJmZC/MtRv0PdEJKJiNUMIVdzNH7oCxMRIYIQESIIESGCEBEiCBEhghARIggRIULcKu4iQkwzLVJIJiJWM/xdzflRsN9swkREiJCv1Rz7Ir4+fq/1B49cOJHYK+3cE2vlHLbyu88mIlYzJLqau+bD6jfLPwIf82DstCcWUrSQTESsZhAiQgQhIkQQIkIEISJEECK5Uumel5rZb9fm4PvIJiJCBKs5D5beLwc+ZvvuLU6UiYgQoYOr2f1JiGcAVk1ErGYo5FXzymKY/wb07KjGcvQErojDvcDYX6mJiNUMVnNprVthuBtY9HNoIoIQKdpqztiH1Y1Xhd9Xfte+2NSzvgBvT5PL3ny/0oaQTESsZsj+VXO619H3p+eSf4HHhwe67WLZRESIIESECELEVXMe1S9gy3v6O32s6rt5J9xERIhgNdubJiIIEas5SfWfksJEBCGSs9XsLiLEM9MihWQiYjVDuKvmS7eftv7g1YG+//6k1/kuirZKuHVx0ETEaoYOrebsK8avM5uIIES6ejXn+cPqn9u21r7Y+OWr97J+Nj7176190Tv/NhPPrIXGTESsZhAiQgQhIkQQIkKEIIl+r7n+QWuOnH35otOHmDxwUIgmIkKEVFYzCYv9/0Lr5hZMRKxmECJCBCHiqjl36j+c7MnnZABWTUSsZhAiQgQh4qq5a22otvHgyzOPa1+MHT1iIoIQsZqdgubGh8Ksy/q2ZW0NNyExEbGaQYgIEYSIEEGICBGEiBBBiAgRhIgQQYgIEYRIIfwBK8O8YBk8bnoAAAAASUVORK5CYII=" alt="NPC 픽셀 초상화" /></div><div class="speech" id="speech"></div></div>
+      <div class="speaker-tag" id="speaker-tag">신랑</div>
+      <div class="chat-head"><div class="portrait-frame"><img id="portrait" src="assets/portrait-groom.svg" alt="신랑 픽셀 초상화" /></div><div class="speech" id="speech"></div></div>
       <div class="controls" id="controls"></div><p class="tiny" id="tiny"></p>
     </section></div>
   </main>
@@ -146,16 +140,19 @@
       const value=(invitationParams.get(key)||'').trim();
       return value ? value.slice(0,maxLength) : fallback;
     }
+    const groomName = invitationValue('groom', '', 30);
+    const brideName = invitationValue('bride', '', 30);
     const CONFIG = {
-      names: invitationValue('names', invitationValue('couple', '우리 두 사람')),
+      names: invitationValue('names', invitationValue('couple', groomName && brideName ? groomName + ' ♡ ' + brideName : '우리 두 사람')),
+      groom: groomName,
+      bride: brideName,
       date: invitationValue('date', '추후 안내', 60),
       time: invitationValue('time', '추후 안내', 60),
       venue: 'Howard County Courthouse'
     };
     const PORTRAITS={
-      post: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAAEDUlEQVR42u3cz4uMARjA8RmGo1olhdoNpZQbymEP67A3LSdSm4MrJQoptKu0ym5q9x/QXjjISg42tYc9KNxIKbS0q7RlS7mQHYepEbPNO/O+77y/5vM5bRremXe+PY93dvctLz4bKQVaLZfita7qoA76z98uQQYIESGCEBEiCBEhghDJtEr8H2y2wkEd1ETEagYhIkQQIkIEISJEECJCBCEiRBAiQgQhIkQQIgVUabPbmO9lcfX1K+9BKm7s29+h9zRcSCYiVjMIESGCEBEiCBEhQpA2P9BO5V4WBXXz0K4Qf+vK8w8xP49s3J/ERMRqBiEiRBAiRbhqbsfwo9nAx/Tt3Ow9SEUr704T00ODJiJWMwgRIYIQESIIESFCsirpHn7h47euPfUnu/i1m4gIEZqt5lTuOEEBZ1qkkExErGYQIkIEISJEECJChCCVJD+sXvr8yxkvrGghmYhYzSBEhAhCRIggRIQIQTr4y1ONN4w6PPnEGcdERIggRIQIQiQ/youzoykefurOQ+9Bus6cO2YighDJkjY/0HZ/kgLOojTe04aDmohYzSBEhAhCRIggRIQIQdr8QLvoH1ZfO3+qSC9ndOJu4GOmJmZC/MtRv0PdEJKJiNUMIVdzNH7oCxMRIYIQESIIESGCEBEiCBEhghARIggRIULcKu4iQkwzLVJIJiJWM/xdzflRsN9swkREiJCv1Rz7Ir4+fq/1B49cOJHYK+3cE2vlHLbyu88mIlYzJLqau+bD6jfLPwIf82DstCcWUrSQTESsZhAiQgQhIkQQIkIEISJEECK5Uumel5rZb9fm4PvIJiJCBKs5D5beLwc+ZvvuLU6UiYgQoYOr2f1JiGcAVk1ErGYo5FXzymKY/wb07KjGcvQErojDvcDYX6mJiNUMVnNprVthuBtY9HNoIoIQKdpqztiH1Y1Xhd9Xfte+2NSzvgBvT5PL3ny/0oaQTESsZsj+VXO619H3p+eSf4HHhwe67WLZRESIIESECELEVXMe1S9gy3v6O32s6rt5J9xERIhgNdubJiIIEas5SfWfksJEBCGSs9XsLiLEM9MihWQiYjVDuKvmS7eftv7g1YG+//6k1/kuirZKuHVx0ETEaoYOrebsK8avM5uIIES6ejXn+cPqn9u21r7Y+OWr97J+Nj7176190Tv/NhPPrIXGTESsZhAiQgQhIkQQIkKEIIl+r7n+QWuOnH35otOHmDxwUIgmIkKEVFYzCYv9/0Lr5hZMRKxmECJCBCHiqjl36j+c7MnnZABWTUSsZhAiQgQh4qq5a22otvHgyzOPa1+MHT1iIoIQsZqdgubGh8Ksy/q2ZW0NNyExEbGaQYgIEYSIEEGICBGEiBBBiAgRhIgQQYgIEYRIIfwBK8O8YBk8bnoAAAAASUVORK5CYII=',
-      flower: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAAECklEQVR42u3dPUiUDxzA8TNuqUEQTYkMlAhaIqixxSGKoIZyaE2yKYggKWgJl0BwaszCHINsKYLAwaW1xYYgIkEjzEIQehmCGg4egiuf5+55f57PZ7rh/j738uX367nT59+zvjTdCNM/tK+RqK8bnxzUQf+2qwEFIESECEJEiCBEhAhCpNB6fqzc9ypgIoIQESIIESGCEBEiCBEhghARIggRIYIQESIIESFCEpod3dsFNBw0pYOaiFjNIESECEJEiCBEhAhhXHIEExGEiBBBiAgRhIgQQYgIEYSIEKFTTS9BSS3OPsj+oONTkyYiVjMIESGCEKnVWXO+V5zoHzra1Q/4HOeguTzTLA+ai5jP1ETEaoZgNZfxQefyWS4mIkIEISJEECI1PGvO5dPUanyES4LvqYmI1QzBak7zhw9Gv+uHpZeh9xk9ebp1Y3zqduidF2fvendNRBAiQgQhIkQQIkIEISJEECJChHQU5Y+ngu+RMRFBiFjN0dXnAhqkqj0kExGrGTI5a45yza7BLn6u3742EUGICBGEiBChgGfNlf+w+sLElSo9nafzc8n+wOASqTH/F1TtIZmIWM3Q3WpOarAHolw8BBMRhIjVnOGy9q0xJiJCBCEiRBAiQgQhIkQQIkIEIVI6TVcRIRExQzIRsZohWM0leqwV+8smTESECOVazYkv4jszD6PfefrW5cyeaXoPLMprmPjfPpuIWM0QczXX58PqN5vfQu+zOHvNA+tOzJBMRKxmECJCBCEiRBAiQgQhIkQQIqXSrM9TLezXtcX/HtlERIhgNZfCx7eroffZf3jEC2UiIkRIbzW7PgmJaA/JRMRqhmqcNW+tfu/iv+ob2ZPI0TM4I+7uCSb+TE1ErGawmhv/uhSGq4HFfw1NRBAiFVvNRfuwuv2scHtzu3Wjd29vBd6eHU57S/1M20MyEbGaofhnzfmeRz+ef579E7w4cbZuJ8smIkIEISJEECLOmssoOIHtOXgs7WP9fv/aC24iIkSwmu1NExGEiNWcpeC3pDARQYiUazW7igiJiBmSiYjVDN2dNU/eWIhzsDM2fFV0VMLMzVMmIlYzpLSad3DpyEjofTa+vEv7+VTjz5mLb4e3+9HKqomI1QxxVnOpP6x+9Wy5dePEuTHv5e7RgdaNoYFDmf1bKIoojZmIWM0gRIQIQqSYZ81egsrYWhtu3Th+/npKh3gxd9VExGqGKq3m4INWMBERIjhrrrNf68sdNDE8lv0/rkxErGYQIkIEIeKsOT3BLyfX2c+10jzU9uuTmIhYzSBEhAhCxFkzub3N///62EQEIWI1Q/tFSExErGawmqun78B668bSvScmIggRIYIQESIIESGCEBEiCBEhghARIgiR2vgDtg7M57d097AAAAAASUVORK5CYII=',
-      couple: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAADxUlEQVR42u3dP2sTcRzA4VSuiFhdOqiLm4KTiOBLcHOrs5PgUMQlydSAqYNtB0U6CE6u2q2Diy9DKOgmCop0UYtICzpUDumJd7k/v/zu8jyTSPSS9MP366XXc+7D6/u9PHP7x3u1+jX/00Ed9G/HehABISJEECJCBCEiRBAiUUtq/2CzCAd1UBMRqxmEiBBBiAgRhIgQQYgIEYSIEEGICBGEiBBBiHRRMtGj3UDDQRs6qImI1QxCRIggRIQIQkSIkGeyD7TdQMNBGzqoiYjVDEJEiCBEhAhCRIggRIQIQkSIIESECGUl0T6z8ZNtX57aje7eMBFBiES+mqO9zQVNSN/52G5dYiJiNYMQESIIESGCEBEi5Elm5zYXNPrOV/ybTUSsZkgH6sdXD2N4HoO1rSO/s3DC+q7f9x9HvyO8PlwyEUGICBGEiBBBiAgRhIgQQYgIESY05VuOZL/FjIkIQsRqLi7k/UmyFyxN98Kw7PPphkjuOWMiYjWDEBEiCBEhghARIuSZ7APtWb5VyNPRvdY95zvjx7mPGT4o89+IVPxp6GxIJiJWM5RbzRW56AsTESFCVKu5ogAXYrXx1NhEBCEiRBAiQgQhIkQQIkIEISJECC6Zyh0n6J6KIZmIWM2QruYWPVfXaJmIIESs5i4t4vHGZvEHj/rLwV5pc0+syHtY5GefTUSsZgi5mmfnw+o3X/ZyH/NifeiJlVMxJBMRqxmEiBBBiAgRhIgQQYgIEYRIqySz81Kj/XZt/N9HNhERIljNrfDp7U7uY85evOSNMhERIjS3mt2fhFpkQzIRsZqhG2fNX9/vlvhTp88v1nL0AGfE5V5g7a/URMRqBqu5969bYbgbWPX30EQEIdKx1Rzbh9XZs8K93c+Hvzi5eKYDX57/nPa2+pVmQzIRsZoh/rPm6Z5Hbz1/Gf4FLt26OWsnyyYiQgQhIkQQIs6a2yg9gU0uNH6t18G7HW+4iYgQwWq2N01EECJWc0jpVVKYiCBE2rWa3UWEWlQMyUTEaoZyZ82DR9veMiYtYW1w3UTEaoaGVnPWxsrt4g/ur2w2/Xq68ePM8Svyde+vPjMRsZqhxGpu9YfV3+YPDn9xat/1bL2Fa5f/7M3V5WD/FiqiSGMmIlYzCBEhghARIggRIUKeoJ8Dpx+0gomIECGG1UxgLfq3kImIEEGICBGEiLPm5qSXaqfOXbnqqxut7P1JTESsZhAiQgQhIkQQIkKEPC4DYwqyNyExEbGaQYgIEYSIEEGICBGEiBBBiAgRhIgQQYgIEYRIJ/wG9QDXScf/XXQAAAAASUVORK5CYII=',
+      groom:'assets/portrait-groom.svg',
+      bride:'assets/portrait-bride.svg'
     };
     const $=id=>document.getElementById(id);
     const game=$('game'), controls=$('controls');
@@ -182,58 +179,114 @@
     createSnowfall();
     $('date-label').textContent=CONFIG.date;$('time-label').textContent=CONFIG.time;$('venue-label').textContent=CONFIG.venue;$('signature').textContent=CONFIG.names;
     function wipe(){controls.replaceChildren();$('tiny').textContent='';}
-    function talk(who,speech){$('speaker-tag').textContent=who==='post'?'마을 우체부 · 루루':who==='flower'?'꽃집 주인 · 모모':CONFIG.names;$('portrait').src=PORTRAITS[who];$('portrait').alt=who==='post'?'우체부 NPC 초상화':who==='flower'?'꽃집 주인 NPC 초상화':'결혼식 주인공 NPC 초상화';$('speech').textContent=speech;}
+    function talk(who,speech){
+      const groom=who==='groom';
+      const role=groom?'신랑':'신부';
+      const personalName=groom?CONFIG.groom:CONFIG.bride;
+      $('speaker-tag').textContent=personalName ? role+' · '+personalName : role;
+      $('portrait').src=PORTRAITS[who];
+      $('portrait').alt=role+' 픽셀 초상화';
+      $('speech').textContent=speech;
+    }
     function btn(label,action,style='primary'){let b=document.createElement('button');b.type='button';b.className=`choice ${style}`;b.textContent=label;b.addEventListener('click',action);controls.appendChild(b);return b;}
     function field(tag,placeholder,value,max){let x=document.createElement(tag);x.className='field';x.placeholder=placeholder;x.value=value;x.maxLength=max;x.setAttribute('aria-label',placeholder);controls.appendChild(x);return x;}
     function go(step){state.step=step;render();}
-    const scenes={hello:'village',mail:'village',letter:'court',attendance:'court',name:'court',note:'court',review:'court',done:'court'};
-    const qlog={hello:'눈 오는 마을에 도착하기',mail:'눈 덮인 우체통 확인하기',letter:'겨울의 특별한 초대장',attendance:'초대에 답장하기',name:'방명록에 이름 남기기',note:'마음을 전하기',review:'답장 확인하기',done:'퀘스트 완료!'};
-    function render(){game.dataset.step=state.step;game.dataset.scene=scenes[state.step];$('quest-bar').textContent=qlog[state.step];wipe();
+    const scenes={
+      hello:'village', meetBride:'village',
+      letter:'court', attendance:'court', name:'court',
+      note:'court', review:'court', done:'court'
+    };
+    const qlog={
+      hello:'신랑과 인사하기',
+      meetBride:'신부와 인사하기',
+      letter:'겨울의 결혼 초대장 열기',
+      attendance:'참석 여부 알려주기',
+      name:'답장에 이름 적기',
+      note:'축하 메시지 남기기',
+      review:'답장 내용 확인하기',
+      done:'초대장 퀘스트 완료!'
+    };
+    function render(){
+      game.dataset.step=state.step;
+      game.dataset.scene=scenes[state.step];
+      $('quest-bar').textContent=qlog[state.step];
+      wipe();
       switch(state.step){
       case 'hello':
-        talk('post',CONFIG.names==='우리 두 사람'?'어서 와! 눈이 정말 많이 오지?\n너에게 도착한 특별한 편지가 있어!':`어서 와! 눈이 정말 많이 오지?\n${CONFIG.names}에게서 편지가 도착했어!`);
-        btn('안녕! 무슨 편지야?',()=>go('mail'));
-        $('tiny').textContent='화면을 터치하며 진행하는 작은 이야기 · 약 1분';break;
-      case 'mail':
-        talk('post','우체통 위에 눈이 소복이 쌓였네.\n저기 있는 편지를 열어 볼래?');
-        btn('우체통에서 편지 꺼내기',()=>go('letter'));
-        $('tiny').textContent='위쪽 우체통을 직접 터치해도 열 수 있어요.';break;
+        talk('groom','안녕! 눈 오는 마을까지 와 줬구나.\n나는 오늘 특별한 소식을 전할 신랑이야!');
+        btn('신부에게 인사하기 ♡',()=>go('meetBride'));
+        $('tiny').textContent='신랑과 신부가 번갈아 안내하는 작은 이야기 · 약 1분';
+        break;
+      case 'meetBride':
+        talk('bride','드디어 만났네! 나는 신부야. ❄\n우리 둘이 준비한 작은 초대장이 있어.');
+        btn('우리의 초대장 열어보기 ✉',()=>go('letter'));
+        break;
       case 'letter':
-        talk('couple','눈 내리는 1월, 우리가 결혼해! ♡\n함께해 준다면 정말 기쁠 거야.');
-        btn('초대에 답장하기 ♡',()=>go('attendance'));
-        $('tiny').textContent=CONFIG.date==='추후 안내'||CONFIG.time==='추후 안내'?'결혼식 날짜와 시간은 아직 입력되지 않았어요.':'장소를 누르면 Google 지도를 열 수 있어요.';break;
+        talk('groom','짜잔! 눈 내리는 1월, 우리가 결혼해! ♡\n여기가 우리의 작은 결혼식 장소야.');
+        btn('신부에게 답장하기 ♡',()=>go('attendance'));
+        $('tiny').textContent=CONFIG.date==='추후 안내'||CONFIG.time==='추후 안내'?
+          '결혼식 날짜와 시간은 아직 입력되지 않았어요.':
+          '장소를 터치하면 Google 지도를 열 수 있어요.';
+        break;
       case 'attendance':
-        talk('flower','법원 앞에도 눈이 펑펑 내리고 있어!\n우리의 특별한 날에 함께할 수 있니?');
+        talk('bride','그날 우리와 함께해 줄 수 있을까?\n편한 마음으로 알려 줘. ♡');
         btn('응! 꼭 참석할게 ♡',()=>{state.attending='참석';go('name')});
-        btn('아쉽지만 참석하기 어려워',()=>{state.attending='불참';go('name')},'secondary');break;
+        btn('아쉽지만 참석하기 어려워',()=>{state.attending='불참';go('name')},'secondary');
+        break;
       case 'name': {
-        talk('flower',state.attending==='참석'?'우와, 두 사람도 정말 기뻐할 거야!\n명단에 적을 이름을 알려 줘.':'알겠어. 마음을 전해 주는 것만으로도\n정말 고마울 거야! 이름을 알려 줘.');
-        const x=field('input','이름을 입력해 주세요',state.name,60);x.autocomplete='name';x.type='text';
-        btn('다음으로 ▸',()=>{if(!x.value.trim()){x.setCustomValidity('이름을 입력해 주세요.');x.reportValidity();x.focus();return;}x.setCustomValidity('');state.name=x.value.trim();go('note');});
-        x.addEventListener('input',()=>x.setCustomValidity(''));x.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();controls.querySelector('button').click();}});break;}
+        talk('groom',state.attending==='참석'?
+          '와 준다니 정말 든든해!\n답장에 적을 이름을 알려 줄래?':
+          '답장해 줘서 정말 고마워.\n어떤 이름으로 기억하면 될까?');
+        const x=field('input','이름을 입력해 주세요',state.name,60);
+        x.autocomplete='name';x.type='text';
+        btn('다음으로 ▸',()=>{
+          if(!x.value.trim()){
+            x.setCustomValidity('이름을 입력해 주세요.');
+            x.reportValidity();x.focus();return;
+          }
+          x.setCustomValidity('');
+          state.name=x.value.trim();go('note');
+        });
+        x.addEventListener('input',()=>x.setCustomValidity(''));
+        x.addEventListener('keydown',e=>{
+          if(e.key==='Enter'){e.preventDefault();controls.querySelector('button').click();}
+        });
+        break;
+      }
       case 'note': {
-        talk('flower',`${state.name}님, 고마워!\n마지막으로 두 사람에게 남길 말이 있니?`);
+        talk('bride',state.name+'님, 고마워! ♡\n우리에게 남기고 싶은 말도 있을까?');
         const x=field('textarea','축하 메시지를 남겨 주세요 (선택)',state.note,300);
         btn('답장 확인하기 ▸',()=>{state.note=x.value.trim();go('review')});
         btn('← 이전으로',()=>{state.note=x.value.trim();go('name')},'secondary');
-        $('tiny').textContent='메시지는 적지 않아도 괜찮아요.';break;}
+        $('tiny').textContent='메시지는 적지 않아도 괜찮아요.';
+        break;
+      }
       case 'review': {
-        talk('post','잘했어! 이제 마지막이야.\n이대로 편지를 봉인할까?');
+        talk('groom','네 답장을 잘 정리했어!\n이대로 편지를 봉인해 볼까?');
         const r=document.createElement('div');r.className='review';
         for(const [k,v] of [['이름',state.name],['참석 여부',state.attending],['한마디',state.note||'없음']]){
-          const row=document.createElement('div');const s=document.createElement('strong');s.textContent=k+'  ';row.appendChild(s);row.appendChild(document.createTextNode(v));r.appendChild(row);
+          const row=document.createElement('div');
+          const s=document.createElement('strong');
+          s.textContent=k+'  ';row.appendChild(s);
+          row.appendChild(document.createTextNode(v));r.appendChild(row);
         }
         controls.appendChild(r);
         btn('답장 봉인하기 ✦',()=>go('done'));
         btn('← 내용 수정하기',()=>go('note'),'secondary');
-        $('tiny').textContent='디자인 미리보기: 실제로 전송되지는 않습니다.';break;}
+        $('tiny').textContent='디자인 미리보기: 실제로 전송되지는 않습니다.';
+        break;
+      }
       case 'done':
-        talk('couple',state.attending==='참석'?`${state.name}님, 함께해 줘서 고마워!\n그날 우리 꼭 만나자 ♡`:`${state.name}님, 마음을 전해 줘서 고마워!\n소중히 간직할게 ♡`);
+        talk('bride',state.attending==='참석'?
+          state.name+'님, 함께해 준다니 정말 기뻐!\n눈 오는 그날 우리 꼭 만나자 ♡':
+          state.name+'님, 따뜻한 마음 전해 줘서 고마워!\n우리 둘이 소중히 간직할게 ♡');
         $('finish-desc').textContent='미리보기 완료 · 아직 답장은 전송되지 않았어요.';
-        btn('처음부터 다시 하기 ↺',()=>{state.attending=null;state.name='';state.note='';go('hello')});break;
+        btn('처음부터 다시 하기 ↺',()=>{
+          state.attending=null;state.name='';state.note='';go('hello');
+        });
+        break;
       }
     }
-    $('tap-mail').addEventListener('click',()=>go('letter'));
     render();
   </script>
 </body>
