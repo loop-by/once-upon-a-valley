@@ -226,7 +226,10 @@ figure img { width: 128px; }
   content: ''; position: absolute; width: 5px; height: 3px; bottom: 2%; left: 46%;
   background: #8293a4; box-shadow: 9px -3px #899aac, 9px -9px #8095ab, 18px -13px #9aabba;
 }
-.scene[data-chapter="1"] #item { bottom: calc(3% + 8px); left: calc(50% + 19px); }
+.scene[data-chapter="1"] #item {
+  top: 50%; left: 50%; bottom: auto;
+  transform: translate(-50%, -50%);
+}
 .scene[data-chapter="1"] #item img { width: 112px; margin: auto; }
 .scene[data-chapter="1"] .envelope { min-width: 112px; min-height: 100px; }
 #paper:not([hidden]) {
