@@ -112,7 +112,7 @@ function welcome() {
 }
 function letter() {
   render(1, 'bride', '소중한 너를 위해 준비한 초대장이야.', '♪');
-  paragraph('하트가 찍힌 봉투를 눌러 열어 보세요.');
+  paragraph('편지 봉투를 눌러 열어 보세요.');
   document.querySelector('.envelope').focus({preventScroll: true});
 }
 function invitation() {
