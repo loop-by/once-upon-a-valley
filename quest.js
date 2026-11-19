@@ -80,7 +80,7 @@ function render(chapter, speaker, message, mood, item = '') {
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
-    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=5' : 'assets/opened.png';
+    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=6' : 'assets/opened.png';
     envelope.alt = '';
     if (chapter === 1) {
       const open = document.createElement('button');
