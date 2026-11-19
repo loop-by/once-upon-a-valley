@@ -13,4 +13,4 @@
 
 ## 신랑·신부 포즈 참고
 
-![턱시도 신랑과 웨딩드레스·베일을 착용한 신부의 픽셀 포즈 레퍼런스](references/couple-pose-reference.png)
+![턱시도 신랑과 웨딩드레스·베일을 착용한 신부의 픽셀 포즈 레퍼런스](assets/village-couple-bouquet.png)
