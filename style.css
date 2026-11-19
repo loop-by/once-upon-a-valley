@@ -260,3 +260,5 @@ figure img { width: 128px; }
 #content .venue-link, #book-details .venue-link {
   display: inline-block; margin: 0; text-decoration: underline; text-underline-offset: 3px;
 }
+
+#actions .form-link { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 12px; background: #f7dfb4; color: #583e32; border: 2px solid #96704d; font-weight: 700; }

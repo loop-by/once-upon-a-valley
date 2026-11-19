@@ -3,7 +3,7 @@
 // Set these public values from the wedding form's prefilled link.
 // Keep the destination in the site configuration so guest links cannot redirect replies.
 const weddingForm = {
-  responderUrl: '',
+  responderUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeBDoYVWWLQ68E2Kdz-xpeWjQj3NOobrxB6-HYAn3B882ONrw/viewform',
   fields: {name: '', wedding: '', lunch: '', note: ''},
   choices: {
     wedding: {'참석': '참석', '불참': '불참'},

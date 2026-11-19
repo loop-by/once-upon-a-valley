@@ -114,6 +114,15 @@ function details() {
   weddingInfo(byId('content'));
   if (replyEndpoint) {
     button('참석 답장 쓰기', () => attendance('wedding'));
+  } else if (weddingForm.responderUrl) {
+    paragraph('아래 설문지에 답장을 남겨 주세요. 마지막에 제출을 누르면 두 사람에게 전달돼요.');
+    const link = document.createElement('a');
+    link.href = weddingForm.responderUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'form-link';
+    link.textContent = 'Google 설문지에 참석 답장하기 ↗';
+    byId('actions').append(link);
   } else {
     paragraph('답장 접수를 준비하고 있어요.');
     button('초대장 다시 보기', invitation);
