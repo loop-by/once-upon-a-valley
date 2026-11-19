@@ -64,7 +64,7 @@ function render(chapter, speaker, message, mood, item = '') {
   if (mood === '♥' || mood === '♡') {
     const heart = document.createElement('img');
     heart.className = 'pixel-heart';
-    heart.src = 'assets/pixel-heart.svg';
+    heart.src = 'assets/pixel-heart.svg?v=2';
     heart.alt = '';
     moodBadge.append(heart);
   }
@@ -80,7 +80,7 @@ function render(chapter, speaker, message, mood, item = '') {
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
-    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=3' : 'assets/opened.png';
+    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=4' : 'assets/opened.png';
     envelope.alt = '';
     if (chapter === 1) {
       const open = document.createElement('button');
@@ -132,9 +132,13 @@ function displayDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
   const day = new Date(value + 'T12:00:00Z');
   if (Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== value) return value;
-  return new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric', month: 'long', day: 'numeric', weekday: 'short', timeZone: 'UTC',
+  const dateText = new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
   }).format(day);
+  const weekday = new Intl.DateTimeFormat('ko-KR', {
+    weekday: 'short', timeZone: 'UTC',
+  }).format(day);
+  return `${dateText} (${weekday})`;
 }
 function weddingInfo(container) {
   const info = document.createElement('dl');
