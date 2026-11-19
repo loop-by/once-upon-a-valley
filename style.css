@@ -44,7 +44,7 @@ figure img { width: 128px; }
   margin: 0 calc(-1 * clamp(10px, 2vw, 24px)) 0;
   background: url(assets/twilight.png) center bottom / cover;
 }
-.court .landscape { background-image: url(assets/plaza.png); }
+.court .landscape { background-image: url(assets/plaza.png); background-size: 100% 100%; }
 .landscape .hud { inset-inline: 12px; }
 .scene:not([data-chapter="0"]) .title { display: none; }
 .villagers {
@@ -254,6 +254,7 @@ figure img { width: 128px; }
 
 .court .landscape {
   background-image: url(assets/court-terrace.png), url(assets/plaza.png);
+  background-size: 100% 100%;
   background-position: center bottom;
 }
 .scene[data-chapter="4"] .landscape { background-position: center 84%; }
