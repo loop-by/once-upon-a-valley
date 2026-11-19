@@ -220,6 +220,13 @@ figure img { width: 128px; }
   font-size: 12px; font-weight: 400; line-height: 18px; z-index: 3;
 }
 .keepsake img { width: 14px; height: 14px; object-fit: contain; }
+.scene[data-chapter="0"] .keepsake.welcome-bounce {
+  animation: keepsake-bounce 480ms ease-in-out 3;
+}
+@keyframes keepsake-bounce {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
 .landscape .hud { justify-content: start; gap: 5px; right: 110px; align-items: start; }
 .title { top: 0; padding: 52px 10px 24px; background: linear-gradient(#202e4a99, transparent); pointer-events: none; }
 .title h1 { font-size: clamp(30px, 5vw, 60px); }

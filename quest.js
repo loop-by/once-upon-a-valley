@@ -21,13 +21,17 @@ const speakers = {
   both: couple,
 };
 const date = parameter(['date'], '2027-01-15');
-const time = parameter(['time'], '오후 1시 30분');
+const requestedTime = parameter(['time'], '1:30pm');
+// Older invitation links may still carry the incorrect 12:30 time.
+const time = /^(?:12:30\s*(?:pm)?|오후\s*12시\s*30분|13:30)$/i.test(requestedTime)
+  ? '1:30pm'
+  : requestedTime;
 const reply = {name:'', wedding:'', lunch:'', note:''};
 const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','초대에 답했어요'];
 const scene = document.querySelector('.scene');
 byId('signature').textContent = '사랑을 담아, ' + couple;
 const address = parameter(['address'], '');
-const lunchDetails = parameter(['lunchDetails'], '오후 1시 45분 · Old Ellicott City');
+const lunchDetails = parameter(['lunchDetails'], '1:45pm · Old Ellicott City');
 function button(label, action) {
   const element = document.createElement('button');
   element.textContent = label;
@@ -196,16 +200,18 @@ function openBook(title, populate) {
 function showWedding() {
   openBook('예식 정보', container => {
     weddingInfo(container);
-    if (reply.wedding === '참석') {
-      const heading = document.createElement('h3');
-      heading.textContent = '예식 후 식사';
-      const details = document.createElement('p');
-      details.textContent = lunchDetails;
-      container.append(heading, details);
-    }
+    const heading = document.createElement('h3');
+    heading.textContent = '점심 식사 일정';
+    const details = document.createElement('p');
+    details.textContent = lunchDetails;
+    container.append(heading, details);
   });
 }
-byId('keepsake').onclick = showWedding;
+const keepsake = byId('keepsake');
+keepsake.onclick = showWedding;
+byId('music-prompt').addEventListener('close', () => {
+  keepsake.classList.add('welcome-bounce');
+}, {once: true});
 
 function replyStep(key, objective) {
   scene.dataset.task = key;
