@@ -116,7 +116,7 @@ function letter() {
   document.querySelector('.envelope').focus({preventScroll: true});
 }
 function invitation() {
-  render(2, 'both', '예식장까지 같이 걸을래?', '♥');
+  render(2, 'both', '초대장을 읽어줘서 고마워.\n예식장까지 같이 걸을래?', '♥');
   button('두 사람과 법원으로', details);
 }
 function details() {

@@ -132,6 +132,7 @@ figure img { width: 128px; }
   font-weight: 500;
   line-height: 1.55;
   word-break: keep-all;
+  white-space: pre-line;
 }
 #actions {
   padding-top: 8px;
