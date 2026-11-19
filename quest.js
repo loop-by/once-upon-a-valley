@@ -64,7 +64,7 @@ function render(chapter, speaker, message, mood, item = '') {
   if (mood === '♥' || mood === '♡') {
     const heart = document.createElement('img');
     heart.className = 'pixel-heart';
-    heart.src = 'assets/pixel-heart.svg?v=3';
+    heart.src = 'assets/pixel-heart.svg?v=4';
     heart.alt = '';
     moodBadge.append(heart);
   }
@@ -80,7 +80,7 @@ function render(chapter, speaker, message, mood, item = '') {
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
-    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=6' : 'assets/opened.png';
+    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=7' : 'assets/opened.png';
     envelope.alt = '';
     if (chapter === 1) {
       const open = document.createElement('button');

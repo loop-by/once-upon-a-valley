@@ -224,8 +224,8 @@ figure img { width: 128px; }
   background: #8293a4; box-shadow: 9px -3px #899aac, 9px -9px #8095ab, 18px -13px #9aabba;
 }
 .scene[data-chapter="1"] #item { bottom: calc(3% + 8px); left: calc(50% + 19px); }
-.scene[data-chapter="1"] #item img { width: 28px; margin: auto; }
-.scene[data-chapter="1"] .envelope { min-width: 44px; min-height: 44px; }
+.scene[data-chapter="1"] #item img { width: 112px; margin: auto; }
+.scene[data-chapter="1"] .envelope { min-width: 112px; min-height: 100px; }
 #paper:not([hidden]) {
   position: relative; z-index: 2; width: min(82%, 365px); margin: 64px auto 18px;
   padding: 16px 22px; color: #563c32; background: #fff2d4;
