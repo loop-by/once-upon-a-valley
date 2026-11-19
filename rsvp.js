@@ -25,21 +25,19 @@ function googleReplyEndpoint(config) {
 
 const replyEndpoint = googleReplyEndpoint(weddingForm);
 
-function sendReply(reply) {
-  if (!replyEndpoint) return;
-  const form = document.createElement('form');
-  form.method = 'post';
-  form.action = replyEndpoint;
-  form.target = '_blank';
-  form.rel = 'noopener';
+async function sendReply(reply) {
+  const body = new URLSearchParams();
   for (const [key, entry] of Object.entries(weddingForm.fields)) {
-    const field = document.createElement('input');
-    field.type = 'hidden';
-    field.name = entry;
-    field.value = weddingForm.choices[key]?.[reply[key]] ?? reply[key];
-    form.append(field);
+    body.set(entry, weddingForm.choices[key]?.[reply[key]] ?? reply[key]);
   }
-  document.body.append(form);
-  form.submit();
-  form.remove();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+  try {
+    // Forms accepts a normal URL-encoded POST but does not expose its receipt via CORS.
+    await fetch(replyEndpoint, {
+      method: 'POST', mode: 'no-cors', credentials: 'omit', body, signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
 }

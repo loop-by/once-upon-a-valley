@@ -114,15 +114,6 @@ function details() {
   weddingInfo(byId('content'));
   if (replyEndpoint) {
     button('참석 답장 쓰기', () => attendance('wedding'));
-  } else if (weddingForm.responderUrl) {
-    paragraph('아래 설문지에 답장을 남겨 주세요. 마지막에 제출을 누르면 두 사람에게 전달돼요.');
-    const link = document.createElement('a');
-    link.href = weddingForm.responderUrl;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.className = 'form-link';
-    link.textContent = 'Google 설문지에 참석 답장하기 ↗';
-    byId('actions').append(link);
   } else {
     paragraph('답장 접수를 준비하고 있어요.');
     button('초대장 다시 보기', invitation);
@@ -280,9 +271,22 @@ function review() {
   render(4, 'groom', '풀칠하기 전에, 내가 잘 받아 적었는지 봐 줄래?', '✉');
   replyStep('review', '봉인 전 확인');
   replyRows(byId('content'), true);
-  paragraph('봉인하면 두 사람의 Google 설문지로 답장을 보내요. 새 창에서 접수 결과를 확인해 주세요.');
-  button('봉인하고 답장 보내기', () => {
-    sendReply(reply);
+  const status = document.createElement('p');
+  status.setAttribute('role', 'status');
+  byId('content').append(status);
+  const submit = button('봉인하고 답장 보내기', async () => {
+    if (submit.disabled) return;
+    const controls = document.querySelectorAll('#actions button, #content button');
+    controls.forEach(control => { control.disabled = true; });
+    status.textContent = '편지를 보내는 중이에요…';
+    try {
+      await sendReply(reply);
+    } catch {
+      status.textContent = '전송 결과를 확인할 수 없어요. 입력한 답장은 그대로 있어요.';
+      controls.forEach(control => { control.disabled = false; });
+      submit.textContent = '다시 보내기';
+      return;
+    }
     done();
   });
   back(() => note());
@@ -292,7 +296,7 @@ function done() {
   byId('objective').textContent = '답장 봉인 완료';
   paragraph(reply.wedding === '참석' ? '눈 오는 날, 예식장에서 반갑게 인사해요.' : '멀리서도 보내 주는 따뜻한 마음, 고마워요.');
   paragraph('법원 예식 ' + reply.wedding + ' · 점심 ' + reply.lunch);
-  paragraph('새로 열린 Google 설문지에서 접수 결과를 확인해 주세요.');
+  paragraph('답장 전송을 요청했어요.');
   button('예식 정보 다시 보기', showWedding);
   button('내 답장 보기', () => openBook('내 답장', replyRows));
 }
