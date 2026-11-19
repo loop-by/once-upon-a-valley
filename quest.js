@@ -30,8 +30,20 @@ const reply = {name:'', wedding:'', lunch:'', note:''};
 const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','초대에 답했어요'];
 const scene = document.querySelector('.scene');
 byId('signature').textContent = '사랑을 담아, ' + couple;
-const address = parameter(['address'], '');
-const lunchDetails = parameter(['lunchDetails'], '1:45pm · Old Ellicott City');
+const weddingSchedule = {
+  time,
+  venue: 'Howard County Circuit Courthouse',
+  mapUrl: 'https://maps.app.goo.gl/FnhP4NMmC6YWfaNEA',
+  address: parameter(['address'], ''),
+};
+const lunchDetails = parameter(['lunchDetails'], '');
+const lunchParts = /^(.+?)\s*·\s*(.+)$/.exec(lunchDetails);
+const lunchTime = lunchParts?.[1];
+const lunchSchedule = {
+  // Shared links may include the previous lunch time from the link builder.
+  time: !lunchTime || /^(?:1:45\s*pm|오후\s*1시\s*45분)$/i.test(lunchTime) ? '2:00pm' : lunchTime,
+  venue: lunchParts?.[2] || lunchDetails || 'Old Ellicott City',
+};
 function button(label, action) {
   const element = document.createElement('button');
   element.textContent = label;
@@ -125,7 +137,6 @@ function invitation() {
 }
 function details() {
   render(3, 'groom', '저기 눈 덮인 법원 보이지? 우리가 결혼할 곳이야.', '✦');
-  weddingInfo(byId('content'));
   if (replyEndpoint) {
     button('참석 답장 쓰기', () => attendance('wedding'));
   } else {
@@ -145,18 +156,18 @@ function displayDate(value) {
   }).format(day);
   return `${dateText} (${weekday})`;
 }
-function weddingInfo(container) {
+function eventInfo(container, { time, venue, mapUrl, address }) {
   const info = document.createElement('dl');
   info.className = 'event-info';
-  const rows = [['날짜', displayDate(date)], ['시간', time], ['장소', 'Howard County Circuit Courthouse']];
+  const rows = [['날짜', displayDate(date)], ['시간', time], ['장소', venue]];
   if (address) rows.push(['주소', address]);
   for (const [label, value] of rows) {
     const term = document.createElement('dt');
     const detail = document.createElement('dd');
     term.textContent = label;
-    if (label === '장소') {
+    if (label === '장소' && mapUrl) {
       const map = document.createElement('a');
-      map.href = 'https://maps.app.goo.gl/FnhP4NMmC6YWfaNEA';
+      map.href = mapUrl;
       map.target = '_blank';
       map.rel = 'noopener noreferrer';
       map.className = 'venue-link';
@@ -199,12 +210,11 @@ function openBook(title, populate) {
 }
 function showWedding() {
   openBook('예식 정보', container => {
-    weddingInfo(container);
+    eventInfo(container, weddingSchedule);
     const heading = document.createElement('h3');
     heading.textContent = '점심 식사 일정';
-    const details = document.createElement('p');
-    details.textContent = lunchDetails;
-    container.append(heading, details);
+    container.append(heading);
+    eventInfo(container, lunchSchedule);
   });
 }
 byId('keepsake').onclick = showWedding;
@@ -221,7 +231,7 @@ function attendance(key, editing = false, cancelEdit = review) {
   const ceremony = key === 'wedding';
   render(4, ceremony ? 'bride' : 'groom', ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝난 후 점심을 대접하고 싶어. 참석해줄 수 있을까?', '♪');
   replyStep(key, ceremony ? '예식 참석 여부' : '점심 참석 여부');
-  if (!ceremony && lunchDetails) paragraph(lunchDetails);
+  eventInfo(byId('content'), ceremony ? weddingSchedule : lunchSchedule);
   const event = ceremony ? '예식' : '점심';
   for (const value of ['참석','불참']) {
     const label = value === '참석' ? event + '에 참석할게' : event + '은 어려워';
