@@ -139,7 +139,7 @@ function displayDate(value) {
 function weddingInfo(container) {
   const info = document.createElement('dl');
   info.className = 'event-info';
-  const rows = [['날짜', displayDate(date)], ['현지 시간', time], ['장소', 'Howard County Circuit Courthouse']];
+  const rows = [['날짜', displayDate(date)], ['시간', time], ['장소', 'Howard County Circuit Courthouse']];
   if (address) rows.push(['주소', address]);
   for (const [label, value] of rows) {
     const term = document.createElement('dt');
