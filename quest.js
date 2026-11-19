@@ -28,7 +28,6 @@ const chapters = ['겨울 마을에서 인사하기','봉인된 편지 받기','
 const scene = document.querySelector('.scene');
 byId('welcome-names').textContent = groom || bride || combinedNames ? couple : '겨울 마을의 결혼식';
 byId('signature').textContent = '사랑을 담아, ' + couple;
-const previewNotice = '답장 미리보기예요. 실제로 전송되지 않아요.';
 const address = parameter(['address'], '');
 const lunchDetails = parameter(['lunchDetails'], '');
 function button(label, action) {
@@ -99,7 +98,7 @@ function render(chapter, speaker, message, mood, item = '') {
   }
 }
 function welcome() {
-  render(0, 'groom', '여기야, 여기! 발 시리지? 방금 눈 쓸어 뒀어. 내 발자국 밟고 와.', '♡');
+  render(0, 'groom', '여기야, 여기! 발 시리지? 여기 가로등 아래로 와. 네게 줄 게 있어.', '♡');
   button('왔어! 손에 든 건 뭐야?', letter);
 }
 function letter() {
@@ -113,8 +112,12 @@ function invitation() {
 function details() {
   render(3, 'groom', '저기 불 켜진 창 보이지? 우리가 결혼할 곳이야.', '✦');
   weddingInfo(byId('content'));
-  paragraph(previewNotice);
-  button('답장 미리보기 시작', () => attendance('wedding'));
+  if (replyEndpoint) {
+    button('참석 답장 쓰기', () => attendance('wedding'));
+  } else {
+    paragraph('답장 접수를 준비하고 있어요.');
+    button('초대장 다시 보기', invitation);
+  }
 }
 function displayDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
@@ -133,7 +136,17 @@ function weddingInfo(container) {
     const term = document.createElement('dt');
     const detail = document.createElement('dd');
     term.textContent = label;
-    detail.textContent = value;
+    if (label === '장소') {
+      const map = document.createElement('a');
+      map.href = 'https://maps.app.goo.gl/FnhP4NMmC6YWfaNEA';
+      map.target = '_blank';
+      map.rel = 'noopener noreferrer';
+      map.className = 'venue-link';
+      map.textContent = value;
+      detail.append(map);
+    } else {
+      detail.textContent = value;
+    }
     info.append(term, detail);
   }
   container.append(info);
@@ -155,13 +168,7 @@ function weddingInfo(container) {
     };
     container.append(copy);
   }
-  const map = document.createElement('a');
-  map.href = 'https://maps.app.goo.gl/FnhP4NMmC6YWfaNEA';
-  map.target = '_blank';
-  map.rel = 'noopener noreferrer';
-  map.textContent = 'Google 지도에서 보기 ↗';
-  map.className = 'map-link';
-  container.append(map);
+
 }
 const book = byId('letter-book');
 function openBook(title, populate) {
@@ -264,18 +271,21 @@ function review() {
   render(4, 'groom', '풀칠하기 전에, 내가 잘 받아 적었는지 봐 줄래?', '✉');
   replyStep('review', '봉인 전 확인');
   replyRows(byId('content'), true);
-  paragraph(previewNotice);
-  button('답장 봉인하기', done);
+  paragraph('봉인하면 두 사람의 Google 설문지로 답장을 보내요. 새 창에서 접수 결과를 확인해 주세요.');
+  button('봉인하고 답장 보내기', () => {
+    sendReply(reply);
+    done();
+  });
   back(() => note());
 }
 function done() {
   render(5, 'both', reply.name + '님, 겨울 마을에 들러 줘서 고마워요!', '♥', '✦ ♥ ✦');
-  byId('objective').textContent = '답장 미리보기 완료';
+  byId('objective').textContent = '답장 봉인 완료';
   paragraph(reply.wedding === '참석' ? '눈 오는 날, 예식장에서 반갑게 인사해요.' : '멀리서도 보내 주는 따뜻한 마음, 고마워요.');
   paragraph('법원 예식 ' + reply.wedding + ' · 점심 ' + reply.lunch);
-  paragraph('미리보기를 마쳤어요. 답장은 전송되지 않았어요.');
+  paragraph('새로 열린 Google 설문지에서 접수 결과를 확인해 주세요.');
   button('예식 정보 다시 보기', showWedding);
-  button('내 답장 보기', () => openBook('내 답장 · 미리보기', replyRows));
+  button('내 답장 보기', () => openBook('내 답장', replyRows));
 }
 for (let i = 0; i < 42; i++) {
   const flake = document.createElement('i');

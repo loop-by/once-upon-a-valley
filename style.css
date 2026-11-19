@@ -251,3 +251,12 @@ figure img { width: 128px; }
 }
 #actions .back::before { content: ''; transform: rotate(180deg); }
 .landscape .hud { z-index: 1; pointer-events: none; }
+
+.court .landscape {
+  background-image: url(assets/court-terrace.png), url(assets/plaza.png);
+  background-position: center bottom;
+}
+.scene[data-chapter="4"] .landscape { background-position: center 84%; }
+#content .venue-link, #book-details .venue-link {
+  display: inline-block; margin: 0; text-decoration: underline; text-underline-offset: 3px;
+}
