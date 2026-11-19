@@ -53,7 +53,8 @@ figure img { width: 128px; }
 }
 .court .landscape { background-image: url(assets/plaza.png); background-size: 100% 100%; }
 .landscape .hud { inset-inline: 12px; }
-.scene:not([data-chapter="0"]) .title { display: none; }
+.scene:not([data-chapter="0"]):not([data-chapter="5"]) .title { display: none; }
+.scene[data-chapter="5"] .title { display: block; z-index: 2; }
 .villagers {
   position: absolute;
   bottom: 3%;

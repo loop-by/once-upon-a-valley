@@ -56,6 +56,7 @@ function field(key, label, multiline = false) {
 function render(chapter, speaker, message, mood, item = '') {
   byId('objective').textContent = chapters[chapter];
   byId('count').textContent = (chapter + 1) + ' / 6';
+  byId('scene-title').textContent = chapter === 5 ? 'Thank you' : 'Once Upon a Valley';
   byId('speaker').textContent = speakers[speaker];
   scene.dataset.speaker = speaker;
   byId('speech').textContent = message;
@@ -326,7 +327,7 @@ function review() {
   back(() => note());
 }
 function done() {
-  render(5, 'both', '별빛 마을에 들러줘서 고마워요!', '♥', '✦ ♥ ✦');
+  render(5, 'both', '별빛 마을에 들러줘서 고마워요!', '♥');
   byId('objective').textContent = '초대에 답했어요';
   if (reply.wedding === '참석') paragraph('눈 오는 날, 예식장에서 반갑게 인사해요.');
   paragraph('법원 예식 ' + reply.wedding + (reply.wedding === '참석' ? ' · 식사 ' + reply.lunch : ''));
