@@ -11,25 +11,24 @@ function parameter(keys, fallback) {
   }
   return fallback;
 }
-const groom = parameter(['groom'], '');
-const bride = parameter(['bride'], '');
 const combinedNames = parameter(['names', 'couple'], '');
-const couple = (groom && bride ? [groom, bride].join(' · ') : combinedNames)
-  || (groom || bride ? [groom || '신랑', bride || '신부'].join(' · ') : '우리 두 사람');
+const groom = parameter(['groom'], combinedNames ? '' : '덕준');
+const bride = parameter(['bride'], combinedNames ? '' : '나연');
+const couple = groom && bride ? groom + ' · ' + bride : combinedNames;
 const speakers = {
   groom: groom ? groom + ' · 신랑' : '신랑',
   bride: bride ? bride + ' · 신부' : '신부',
   both: couple,
 };
-const date = parameter(['date'], '추후 안내');
-const time = parameter(['time'], '추후 안내');
+const date = parameter(['date'], '2027-01-15');
+const time = parameter(['time'], '오후 1시');
 const reply = {name:'', wedding:'', lunch:'', note:''};
 const chapters = ['겨울 마을에서 인사하기','봉인된 편지 받기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','편지 봉인 완료'];
 const scene = document.querySelector('.scene');
 byId('welcome-names').textContent = groom || bride || combinedNames ? couple : '겨울 마을의 결혼식';
 byId('signature').textContent = '사랑을 담아, ' + couple;
 const address = parameter(['address'], '');
-const lunchDetails = parameter(['lunchDetails'], '');
+const lunchDetails = parameter(['lunchDetails'], '오후 1시 45분 · Old Ellicott City');
 function button(label, action) {
   const element = document.createElement('button');
   element.textContent = label;
@@ -72,7 +71,7 @@ function render(chapter, speaker, message, mood, item = '') {
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
-    envelope.src = chapter === 1 ? 'assets/sealed.png' : 'assets/opened.png';
+    envelope.src = chapter === 1 ? 'assets/heart-envelope.png' : 'assets/opened.png';
     envelope.alt = '';
     if (chapter === 1) {
       const open = document.createElement('button');
@@ -103,7 +102,8 @@ function welcome() {
 }
 function letter() {
   render(1, 'bride', '장갑 끼고는 리본을 못 묶겠더라. 그래서 도장을 꾹 찍었어. 자, 네 거야.', '♪');
-  button('봉투 받아 열기　✉', invitation);
+  paragraph('하트가 찍힌 봉투를 눌러 열어 보세요.');
+  document.querySelector('.envelope').focus({preventScroll: true});
 }
 function invitation() {
   render(2, 'both', '우리 편지, 받아 줘서 고마워. 예식장까지 같이 걸을래?', '♥');
@@ -179,7 +179,18 @@ function openBook(title, populate) {
   book.showModal();
   questTransition(book, 'open');
 }
-function showWedding() { openBook('예식 정보', weddingInfo); }
+function showWedding() {
+  openBook('예식 정보', container => {
+    weddingInfo(container);
+    if (reply.wedding === '참석') {
+      const heading = document.createElement('h3');
+      heading.textContent = '예식 후 식사';
+      const details = document.createElement('p');
+      details.textContent = lunchDetails;
+      container.append(heading, details);
+    }
+  });
+}
 byId('keepsake').onclick = showWedding;
 
 function replyStep(key, objective) {
@@ -190,7 +201,7 @@ function replyStep(key, objective) {
 function back(action, editing = false) {
   button(editing ? '수정 취소' : '이전', action).className = 'back';
 }
-function attendance(key, editing = false) {
+function attendance(key, editing = false, cancelEdit = review) {
   const ceremony = key === 'wedding';
   render(4, ceremony ? 'bride' : 'groom', ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝난 뒤 점심에도 참석해줄 수 있을까?', '♪');
   replyStep(key, ceremony ? '예식 참석 여부' : '점심 참석 여부');
@@ -199,16 +210,25 @@ function attendance(key, editing = false) {
   for (const value of ['참석','불참']) {
     const label = value === '참석' ? event + '에 참석할게' : event + '은 어려워';
     button((reply[key] === value ? '✓ ' : '') + label, () => {
+      const previousWedding = reply.wedding;
       reply[key] = value;
+      if (ceremony && value === '불참') {
+        reply.lunch = '불참';
+      } else if (ceremony && (!editing || previousWedding !== value)) {
+        attendance('lunch', editing, () => {
+          reply.wedding = previousWedding;
+          review();
+        });
+        return;
+      }
       if (editing) review();
-      else if (ceremony) attendance('lunch');
       else guest();
     });
   }
-  back(editing ? review : ceremony ? details : () => attendance('wedding'), editing);
+  back(editing ? cancelEdit : ceremony ? details : () => attendance('wedding'), editing);
 }
 function guest(editing = false) {
-  render(4, 'groom', '연필은 내가 들고 있을게. 답장에 이름은 어떻게 적을까?', '♡');
+  render(4, 'groom', '이름을 알려 줄래?', '♡');
   replyStep('name', '이름 적기');
   const input = field('name', '답장에 적을 이름 (필수)');
   const error = document.createElement('p');
@@ -230,7 +250,7 @@ function guest(editing = false) {
   input.oninput = () => { error.textContent = ''; input.removeAttribute('aria-invalid'); };
   input.onkeydown = e => { if (e.key === 'Enter' && !e.isComposing) next(); };
   button(editing ? '수정한 답장 확인하기' : '다음', next);
-  back(editing ? review : () => { reply.name = input.value; attendance('lunch'); }, editing);
+  back(editing ? review : () => { reply.name = input.value; attendance(reply.wedding === '참석' ? 'lunch' : 'wedding'); }, editing);
 }
 function note(editing = false) {
   render(4, 'bride', '편지 아래가 한 줄 비었네. 우리 둘한테 남기고 싶은 말 있어?', '♥');
@@ -252,6 +272,7 @@ function replyRows(container, editable = false) {
     ['lunch', '예식 후 점심', () => attendance('lunch', true)],
     ['note', '축하 메시지', () => note(true)],
   ]) {
+    if (key === 'lunch' && reply.wedding !== '참석') continue;
     const row = document.createElement('div');
     row.className = 'reply-line';
     const value = document.createElement('span');
@@ -295,7 +316,7 @@ function done() {
   render(5, 'both', reply.name + '님, 겨울 마을에 들러 줘서 고마워요!', '♥', '✦ ♥ ✦');
   byId('objective').textContent = '답장 봉인 완료';
   paragraph(reply.wedding === '참석' ? '눈 오는 날, 예식장에서 반갑게 인사해요.' : '멀리서도 보내 주는 따뜻한 마음, 고마워요.');
-  paragraph('법원 예식 ' + reply.wedding + ' · 점심 ' + reply.lunch);
+  paragraph('법원 예식 ' + reply.wedding + (reply.wedding === '참석' ? ' · 식사 ' + reply.lunch : ''));
   paragraph('답장 전송을 요청했어요.');
   button('예식 정보 다시 보기', showWedding);
   button('내 답장 보기', () => openBook('내 답장', replyRows));
