@@ -157,13 +157,30 @@ figure img { width: 128px; }
   border: 0;
 }
 #sound[aria-pressed="false"] { color: #bdc6d2; }
-.turn-page { animation: turn-page 210ms steps(4, end) both; }
+.turn-page { animation: turn-page 440ms steps(6, end) both; }
 @keyframes turn-page {
-  from { transform: translateY(5px); opacity: .78; }
+  from { transform: translateY(16px); opacity: .4; }
   to { transform: translateY(0); opacity: 1; }
 }
-.scene[data-chapter="2"] #item img { animation: unfold 260ms steps(4, end); }
+.scene[data-chapter="2"] #item img { animation: unfold 560ms steps(7, end); }
 @keyframes unfold {
-  from { transform: translateY(4px) scaleY(.68); }
+  from { transform: translateY(15px) scaleY(.28); }
   to { transform: none; }
+}
+
+.turn-page figure { animation: portrait-hop 440ms steps(5, end); }
+@keyframes portrait-hop {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-7px); }
+}
+.scene[data-chapter="3"] .landscape { animation: arrive 620ms steps(8, end); }
+@keyframes arrive {
+  from { filter: brightness(.45); }
+  to { filter: brightness(1); }
+}
+.scene[data-chapter="5"] #item { animation: seal-pop 560ms steps(7, end), glimmer 1.5s .56s ease-in-out infinite alternate; }
+@keyframes seal-pop {
+  0% { scale: .35; }
+  65% { scale: 1.3; }
+  100% { scale: 1; }
 }
