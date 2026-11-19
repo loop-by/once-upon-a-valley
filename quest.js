@@ -59,7 +59,15 @@ function render(chapter, speaker, message, mood, item = '') {
   byId('speaker').textContent = speakers[speaker];
   scene.dataset.speaker = speaker;
   byId('speech').textContent = message;
-  byId('mood').textContent = mood;
+  const moodBadge = byId('mood');
+  moodBadge.replaceChildren();
+  if (mood === '♥' || mood === '♡') {
+    const heart = document.createElement('img');
+    heart.className = 'pixel-heart';
+    heart.src = 'assets/pixel-heart.svg';
+    heart.alt = '';
+    moodBadge.append(heart);
+  }
   const smiling = chapter === 2 || chapter === 5;
   scene.dataset.expression = smiling ? 'smile' : 'neutral';
   document.querySelector('figure img').src = smiling ? 'assets/smile.png?v=2' : 'assets/couple.png?v=2';
@@ -72,7 +80,7 @@ function render(chapter, speaker, message, mood, item = '') {
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
-    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=2' : 'assets/opened.png';
+    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=3' : 'assets/opened.png';
     envelope.alt = '';
     if (chapter === 1) {
       const open = document.createElement('button');
