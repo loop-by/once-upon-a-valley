@@ -59,15 +59,22 @@ const questTransition = (() => {
     updateToggle();
   }
   toggle.addEventListener('click', () => setSound(!enabled || music.paused));
-  musicOn.addEventListener('click', () => {
-    setSound(true);
+  function dismissMusicPrompt(withSound) {
+    setSound(withSound);
     prompt.close();
+    // Paint the first screen before starting the button cue.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById('keepsake').classList.add('welcome-bounce');
+      });
+    });
+  }
+  musicOn.addEventListener('click', () => dismissMusicPrompt(true));
+  musicOff.addEventListener('click', () => dismissMusicPrompt(false));
+  prompt.addEventListener('cancel', event => {
+    event.preventDefault();
+    dismissMusicPrompt(false);
   });
-  musicOff.addEventListener('click', () => {
-    setSound(false);
-    prompt.close();
-  });
-  prompt.addEventListener('cancel', () => setSound(false));
   prompt.addEventListener('close', () => toggle.focus({preventScroll: true}));
   prompt.showModal();
   return (panel, cue) => {

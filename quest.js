@@ -207,11 +207,7 @@ function showWedding() {
     container.append(heading, details);
   });
 }
-const keepsake = byId('keepsake');
-keepsake.onclick = showWedding;
-byId('music-prompt').addEventListener('close', () => {
-  keepsake.classList.add('welcome-bounce');
-}, {once: true});
+byId('keepsake').onclick = showWedding;
 
 function replyStep(key, objective) {
   scene.dataset.task = key;

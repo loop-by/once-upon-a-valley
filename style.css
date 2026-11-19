@@ -224,8 +224,14 @@ figure img { width: 128px; }
   animation: keepsake-bounce 480ms ease-in-out 3;
 }
 @keyframes keepsake-bounce {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -6px; }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene[data-chapter="0"] .keepsake.welcome-bounce {
+    border-color: #f4dfb9;
+    box-shadow: 0 0 0 2px #f4dfb9;
+  }
 }
 .landscape .hud { justify-content: start; gap: 5px; right: 110px; align-items: start; }
 .title { top: 0; padding: 52px 10px 24px; background: linear-gradient(#202e4a99, transparent); pointer-events: none; }
