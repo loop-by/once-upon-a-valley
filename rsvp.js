@@ -4,10 +4,15 @@
 // Keep the destination in the site configuration so guest links cannot redirect replies.
 const weddingForm = {
   responderUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeBDoYVWWLQ68E2Kdz-xpeWjQj3NOobrxB6-HYAn3B882ONrw/viewform',
-  fields: {name: '', wedding: '', lunch: '', note: ''},
+  fields: {
+    name: 'entry.1025280001',
+    wedding: 'entry.628314727',
+    lunch: 'entry.526554793',
+    note: 'entry.1595752497',
+  },
   choices: {
-    wedding: {'참석': '참석', '불참': '불참'},
-    lunch: {'참석': '참석', '불참': '불참'},
+    wedding: {'참석': 'Yes', '불참': 'No'},
+    lunch: {'참석': 'Yes', '불참': 'No'},
   },
 };
 
