@@ -17,7 +17,7 @@ const questTransition = (() => {
   } catch { /* Keep the in-session setting when storage is unavailable. */ }
 
   function updateToggle() {
-    toggle.textContent = blocked ? '♫ 소리 다시 켜기' : enabled ? '♫ 소리 켜짐' : '♪ 소리 꺼짐';
+    toggle.textContent = blocked ? '♫ 효과음 다시 켜기' : enabled ? '♫ 효과음 켜짐' : '♪ 효과음 꺼짐';
     toggle.setAttribute('aria-pressed', String(enabled && !blocked));
   }
   function stop() {
@@ -58,3 +58,14 @@ const questTransition = (() => {
     panel.classList.add('turn-page');
   };
 })();
+
+const music = document.getElementById('music');
+const musicPlayer = document.getElementById('music-player');
+music.addEventListener('toggle', () => {
+  if (music.open) {
+    const embed = document.getElementById('music-embed');
+    musicPlayer.replaceChildren(embed.content.cloneNode(true));
+  } else {
+    musicPlayer.replaceChildren();
+  }
+});
