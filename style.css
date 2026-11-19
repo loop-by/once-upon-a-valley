@@ -299,9 +299,22 @@ figure img { width: 128px; }
 .landscape .hud { z-index: 1; pointer-events: none; }
 
 .court .landscape {
-  background-image: url(assets/court-terrace.png), url(assets/plaza.png?v=2);
+  background-image: url(assets/court-terrace.png), url(assets/plaza.png?v=3);
   background-size: 100% 100%;
   background-position: center bottom;
+}
+.court .landscape::after {
+  content: '';
+  position: absolute;
+  left: 46.7%;
+  top: 58.6%;
+  width: 4.6%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+  background: url(assets/courthouse-seal.svg) center / 100% 100% no-repeat;
+  image-rendering: pixelated;
 }
 .scene.court .landscape {
   flex: 0 0 285px;
