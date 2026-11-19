@@ -30,7 +30,7 @@ figure img { width: 128px; }
 #item img { display: block; width: 80px; image-rendering: pixelated; }
 @media (max-width: 620px) {
   main { max-width: 480px; margin-top: 8px; }
-  .scene { min-height: min(84svh, 760px); padding: 0 8px 10px; }
+  .scene { min-height: min(66svh, 610px); padding: 0 8px 10px; }
   .landscape { flex-basis: 245px; }
   .dialog { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 8px 12px; }
   .conversation { display: contents; }
@@ -279,7 +279,7 @@ figure img { width: 128px; }
 #book-details .reply-line { padding: 8px 2px; }
 #letter-book form { margin-top: 10px; }
 @media (max-width: 620px) {
-  .scene[data-chapter="3"] { min-height: 0; }
+  .scene[data-chapter="3"] .dialog { flex-grow: 1; align-content: center; }
   .scene[data-chapter="4"] { min-height: min(78svh, 660px); }
   .scene[data-task="review"] .dialog { gap: 4px 10px; }
   .scene[data-task="review"] #content p { font-size: 14px; }
