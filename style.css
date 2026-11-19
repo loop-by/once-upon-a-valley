@@ -279,6 +279,7 @@ figure img { width: 128px; }
 #book-details .reply-line { padding: 8px 2px; }
 #letter-book form { margin-top: 10px; }
 @media (max-width: 620px) {
+  .scene[data-chapter="3"] { min-height: 0; }
   .scene[data-chapter="4"] { min-height: min(78svh, 660px); }
   .scene[data-task="review"] .dialog { gap: 4px 10px; }
   .scene[data-task="review"] #content p { font-size: 14px; }
