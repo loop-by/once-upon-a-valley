@@ -256,10 +256,6 @@ figure img { width: 128px; }
 .scene[data-chapter="4"] .dialog.turn-page { animation: ink-in .18s ease-out; }
 .scene[data-chapter="4"] .turn-page figure { animation: none; }
 @keyframes ink-in { from { opacity: .88; } to { opacity: 1; } }
-.scene[data-task="lunch"] #item {
-  bottom: 6px; width: 27px; height: 12px; background: #faf0da;
-  border: 3px double #8193aa; border-radius: 50%; box-shadow: -18px 0 0 -4px #e8e6dc, 18px 0 0 -4px #e8e6dc;
-}
 .scene[data-chapter="5"] .villagers { display: block; animation: winter-bow .75s steps(5); transform-origin: bottom; }
 @keyframes winter-bow { 50% { transform: translateX(-50%) scaleY(.88); } }
 #content label { display: block; margin-bottom: 4px; font-weight: 650; }
