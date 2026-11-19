@@ -120,7 +120,7 @@ function invitation() {
   button('두 사람과 법원으로', details);
 }
 function details() {
-  render(3, 'groom', '저기 불 켜진 건물 보이지? 우리가 결혼할 곳이야.', '✦');
+  render(3, 'groom', '저기 눈 덮인 법원 보이지? 우리가 결혼할 곳이야.', '✦');
   weddingInfo(byId('content'));
   if (replyEndpoint) {
     button('참석 답장 쓰기', () => attendance('wedding'));
