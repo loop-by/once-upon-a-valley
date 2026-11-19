@@ -211,10 +211,13 @@ figure img { width: 128px; }
 
 /* A small masthead keeps the map and cue sheet in reach on short screens. */
 .keepsake {
-  top: 9px; right: 10px; display: flex; align-items: center; gap: 4px;
-  width: auto; padding: 0 8px; font-size: 13px; z-index: 3;
+  top: 10px; right: 12px; display: inline-flex; align-items: center; gap: 4px;
+  width: auto; height: 30px; min-height: 30px; padding: 5px 10px;
+  border: 1px solid #948a88; border-bottom-width: 1px;
+  background: #263146df; color: #f4e4ca;
+  font-size: 12px; font-weight: 400; line-height: 18px; z-index: 3;
 }
-.keepsake img { width: 24px; }
+.keepsake img { width: 14px; height: 14px; object-fit: contain; }
 .landscape .hud { justify-content: start; gap: 5px; right: 110px; align-items: start; }
 .title { top: 0; padding: 52px 10px 24px; background: linear-gradient(#202e4a99, transparent); pointer-events: none; }
 .title h1 { font-size: clamp(30px, 5vw, 60px); }
