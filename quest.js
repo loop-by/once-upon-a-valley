@@ -97,20 +97,20 @@ function render(chapter, speaker, message, mood, item = '') {
   }
 }
 function welcome() {
-  render(0, 'groom', '여기야, 여기! 발 시리지? 여기 가로등 아래로 와. 네게 줄 게 있어.', '♡');
+  render(0, 'groom', '여기야 여기! 추운데 와줘서 고마워.', '♡');
   button('왔어! 손에 든 건 뭐야?', letter);
 }
 function letter() {
-  render(1, 'bride', '장갑 끼고는 리본을 못 묶겠더라. 그래서 도장을 꾹 찍었어. 자, 네 거야.', '♪');
+  render(1, 'bride', '장갑 끼고 리본 묶느라 애먹었어. 자, 네 초대장이야.', '♪');
   paragraph('하트가 찍힌 봉투를 눌러 열어 보세요.');
   document.querySelector('.envelope').focus({preventScroll: true});
 }
 function invitation() {
-  render(2, 'both', '우리 편지, 받아 줘서 고마워. 예식장까지 같이 걸을래?', '♥');
+  render(2, 'both', '우리 초대장, 받아 줘서 고마워. 예식장까지 같이 걸을래?', '♥');
   button('두 사람과 법원으로', details);
 }
 function details() {
-  render(3, 'groom', '저기 불 켜진 창 보이지? 우리가 결혼할 곳이야.', '✦');
+  render(3, 'groom', '저기 불 켜진 건물 보이지? 우리가 결혼할 곳이야.', '✦');
   weddingInfo(byId('content'));
   if (replyEndpoint) {
     button('참석 답장 쓰기', () => attendance('wedding'));
