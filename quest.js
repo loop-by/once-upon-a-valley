@@ -86,7 +86,6 @@ function render(chapter, speaker, message, mood, item = '') {
   } else {
     prop.textContent = item;
   }
-  byId('villagers').src = chapter === 0 ? 'assets/couple-pose.png' : 'assets/village-couple-bouquet.png';
   byId('place').textContent = chapter >= 3 ? '⌖　눈 내린 법원' : '⌖　별빛 마을';
   scene.classList.toggle('court', chapter >= 3);
   byId('actions').replaceChildren();

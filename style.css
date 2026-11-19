@@ -220,7 +220,6 @@ figure img { width: 128px; }
 .scene[data-speaker="bride"] figure::after { background: linear-gradient(90deg, #26324655 44%, transparent 52%); }
 .scene[data-speaker="groom"] figure::after { background: linear-gradient(90deg, transparent 48%, #26324655 56%); }
 #mood { z-index: 1; }
-.scene[data-chapter="4"] .landscape { flex-basis: 130px; background-position: center 74%; }
 .scene[data-chapter="4"] .dialog.turn-page { animation: ink-in .18s ease-out; }
 .scene[data-chapter="4"] .turn-page figure { animation: none; }
 @keyframes ink-in { from { opacity: .88; } to { opacity: 1; } }
@@ -239,7 +238,6 @@ figure img { width: 128px; }
 #letter-book form { margin-top: 10px; }
 @media (max-width: 620px) {
   .scene[data-chapter="4"] { min-height: min(78svh, 660px); }
-  .scene[data-chapter="4"] .landscape { flex-basis: 68px; }
   .scene[data-task="review"] .dialog { gap: 4px 10px; }
   .scene[data-task="review"] #content p { font-size: 14px; }
   .scene[data-task="review"] .reply-line { line-height: 1.25; }
@@ -257,7 +255,14 @@ figure img { width: 128px; }
   background-size: 100% 100%;
   background-position: center bottom;
 }
-.scene[data-chapter="4"] .landscape { background-position: center 84%; }
+.scene.court .landscape {
+  flex: 0 0 285px;
+  background-position: center bottom;
+  background-size: 100% 100%;
+}
+@media (max-width: 620px) {
+  .scene.court .landscape { flex-basis: 245px; }
+}
 #content .venue-link, #book-details .venue-link {
   display: inline-block; margin: 0; text-decoration: underline; text-underline-offset: 3px;
 }
