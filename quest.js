@@ -203,7 +203,7 @@ function back(action, editing = false) {
 }
 function attendance(key, editing = false, cancelEdit = review) {
   const ceremony = key === 'wedding';
-  render(4, ceremony ? 'bride' : 'groom', ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝난 뒤 점심에도 참석해줄 수 있을까?', '♪');
+  render(4, ceremony ? 'bride' : 'groom', ceremony ? '법원 예식에 참석해줄 수 있을까?' : '식이 끝난 후 점심을 대접하고 싶어. 참석해줄 수 있을까?', '♪');
   replyStep(key, ceremony ? '예식 참석 여부' : '점심 참석 여부');
   if (!ceremony && lunchDetails) paragraph(lunchDetails);
   const event = ceremony ? '예식' : '점심';
