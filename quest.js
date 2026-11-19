@@ -23,7 +23,7 @@ const speakers = {
 const date = parameter(['date'], '2027-01-15');
 const time = parameter(['time'], '오후 1시');
 const reply = {name:'', wedding:'', lunch:'', note:''};
-const chapters = ['겨울 마을에서 인사하기','봉인된 편지 받기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','편지 봉인 완료'];
+const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','편지 봉인 완료'];
 const scene = document.querySelector('.scene');
 byId('welcome-names').textContent = groom || bride || combinedNames ? couple : '겨울 마을의 결혼식';
 byId('signature').textContent = '사랑을 담아, ' + couple;
@@ -76,7 +76,7 @@ function render(chapter, speaker, message, mood, item = '') {
     if (chapter === 1) {
       const open = document.createElement('button');
       open.className = 'envelope';
-      open.setAttribute('aria-label', '봉인된 편지 열기');
+      open.setAttribute('aria-label', '봉인된 초대장 열기');
       open.append(envelope);
       open.onclick = invitation;
       prop.append(open);
@@ -86,6 +86,7 @@ function render(chapter, speaker, message, mood, item = '') {
   } else {
     prop.textContent = item;
   }
+  byId('villagers').src = chapter === 0 ? 'assets/couple-pose.png' : 'assets/village-couple-bouquet.png';
   byId('place').textContent = chapter >= 3 ? '⌖　눈 내린 법원' : '⌖　별빛 마을';
   scene.classList.toggle('court', chapter >= 3);
   byId('actions').replaceChildren();
