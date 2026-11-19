@@ -25,7 +25,6 @@ const time = parameter(['time'], '오후 1시');
 const reply = {name:'', wedding:'', lunch:'', note:''};
 const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','편지 봉인 완료'];
 const scene = document.querySelector('.scene');
-byId('welcome-names').textContent = groom || bride || combinedNames ? couple : '겨울 마을의 결혼식';
 byId('signature').textContent = '사랑을 담아, ' + couple;
 const address = parameter(['address'], '');
 const lunchDetails = parameter(['lunchDetails'], '오후 1시 45분 · Old Ellicott City');
@@ -61,7 +60,9 @@ function render(chapter, speaker, message, mood, item = '') {
   scene.dataset.speaker = speaker;
   byId('speech').textContent = message;
   byId('mood').textContent = mood;
-  document.querySelector('figure img').src = chapter === 2 || chapter === 5 ? 'assets/smile.png' : 'assets/couple.png';
+  const smiling = chapter === 2 || chapter === 5;
+  scene.dataset.expression = smiling ? 'smile' : 'neutral';
+  document.querySelector('figure img').src = smiling ? 'assets/smile.png' : 'assets/couple.png';
   const previousChapter = scene.dataset.chapter;
   scene.dataset.chapter = chapter;
   byId('paper').hidden = chapter !== 2;
@@ -71,7 +72,7 @@ function render(chapter, speaker, message, mood, item = '') {
   prop.replaceChildren();
   if (chapter === 1 || chapter === 2) {
     const envelope = document.createElement('img');
-    envelope.src = chapter === 1 ? 'assets/heart-envelope.png' : 'assets/opened.png';
+    envelope.src = chapter === 1 ? 'assets/heart-envelope.png?v=2' : 'assets/opened.png';
     envelope.alt = '';
     if (chapter === 1) {
       const open = document.createElement('button');
@@ -98,7 +99,7 @@ function render(chapter, speaker, message, mood, item = '') {
 }
 function welcome() {
   render(0, 'groom', '여기야 여기! 추운데 먼 길 와줘서 고마워.', '♡');
-  button('왔어! 손에 든 건 뭐야?', letter);
+  button('안녕! 손에 든 건 뭐야?', letter);
 }
 function letter() {
   render(1, 'bride', '소중한 너를 위해 준비한 초대장이야.', '♪');

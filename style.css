@@ -173,6 +173,16 @@ figure img { width: 128px; }
 #actions button:hover, #actions button:focus-visible { background: #ffecc6; border-color: #81523e; }
 .scene[data-speaker="bride"] #mood { right: 0; left: auto; }
 .scene[data-speaker="groom"] #mood { left: 0; right: auto; }
+.scene[data-expression="smile"] #mood {
+  color: #ff3048;
+  background: transparent;
+  padding: 0;
+  font-size: 17px;
+  line-height: 1;
+  text-shadow: 1px 1px #fff0d5;
+  animation: smile-heart-float 1.1s steps(4, end) infinite alternate;
+}
+@keyframes smile-heart-float { to { translate: 0 -4px; } }
 #content:empty { display: none; }
 @media (max-width: 620px) {
   .dialog { padding: 15px; grid-template-columns: 82px minmax(0, 1fr); }
@@ -282,17 +292,26 @@ figure img { width: 128px; }
 .landscape .hud { z-index: 1; pointer-events: none; }
 
 .court .landscape {
-  background-image: url(assets/court-terrace.png), url(assets/plaza.png);
+  background-image: url(assets/court-terrace.png), url(assets/plaza.png?v=2);
   background-size: 100% 100%;
   background-position: center bottom;
 }
 .scene.court .landscape {
   flex: 0 0 285px;
+  height: 285px;
+  min-height: 285px;
+  max-height: 285px;
+  overflow: hidden;
   background-position: center bottom;
   background-size: 100% 100%;
 }
 @media (max-width: 620px) {
-  .scene.court .landscape { flex-basis: 245px; }
+  .scene.court .landscape {
+    flex-basis: 245px;
+    height: 245px;
+    min-height: 245px;
+    max-height: 245px;
+  }
 }
 #content .venue-link, #book-details .venue-link {
   display: inline-block; margin: 0; text-decoration: underline; text-underline-offset: 3px;
