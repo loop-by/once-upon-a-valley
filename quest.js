@@ -101,7 +101,7 @@ function welcome() {
   button('왔어! 손에 든 건 뭐야?', letter);
 }
 function letter() {
-  render(1, 'bride', '자, 네 초대장이야.', '♪');
+  render(1, 'bride', '소중한 너를 위해 준비한 초대장이야.', '♪');
   paragraph('하트가 찍힌 봉투를 눌러 열어 보세요.');
   document.querySelector('.envelope').focus({preventScroll: true});
 }
