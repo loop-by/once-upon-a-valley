@@ -70,7 +70,7 @@ function render(chapter, speaker, message, mood, item = '') {
   }
   const smiling = chapter === 2 || chapter === 5;
   scene.dataset.expression = smiling ? 'smile' : 'neutral';
-  document.querySelector('figure img').src = smiling ? 'assets/smile.png?v=3' : 'assets/couple.png?v=3';
+  document.querySelector('figure img').src = smiling ? 'assets/smile.png?v=4' : 'assets/couple.png?v=4';
   const previousChapter = scene.dataset.chapter;
   scene.dataset.chapter = chapter;
   byId('paper').hidden = chapter !== 2;
