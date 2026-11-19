@@ -254,7 +254,7 @@ function guest(editing = false) {
   back(editing ? review : () => { reply.name = input.value; attendance(reply.wedding === '참석' ? 'lunch' : 'wedding'); }, editing);
 }
 function note(editing = false) {
-  render(4, 'bride', '편지 아래가 한 줄 비었네. 우리 둘한테 남기고 싶은 말 있어?', '♥');
+  render(4, 'bride', '혹시 우리 둘에게 남기고 싶은 말이 있을까?', '♥');
   replyStep('note', '축하 메시지');
   const input = field('note', '축하 메시지 (선택)', true);
   input.focus({preventScroll: true});
@@ -290,7 +290,7 @@ function replyRows(container, editable = false) {
   }
 }
 function review() {
-  render(4, 'groom', '풀칠하기 전에, 내가 잘 받아 적었는지 봐 줄래?', '✉');
+  render(4, 'groom', '내가 잘 받아 적었는지 봐 줄래?', '✉');
   replyStep('review', '봉인 전 확인');
   replyRows(byId('content'), true);
   const status = document.createElement('p');
@@ -314,9 +314,9 @@ function review() {
   back(() => note());
 }
 function done() {
-  render(5, 'both', reply.name + '님, 겨울 마을에 들러 줘서 고마워요!', '♥', '✦ ♥ ✦');
+  render(5, 'both', '별빛 마을에 들러줘서 고마워요!', '♥', '✦ ♥ ✦');
   byId('objective').textContent = '답장 봉인 완료';
-  paragraph(reply.wedding === '참석' ? '눈 오는 날, 예식장에서 반갑게 인사해요.' : '멀리서도 보내 주는 따뜻한 마음, 고마워요.');
+  if (reply.wedding === '참석') paragraph('눈 오는 날, 예식장에서 반갑게 인사해요.');
   paragraph('법원 예식 ' + reply.wedding + (reply.wedding === '참석' ? ' · 식사 ' + reply.lunch : ''));
   paragraph('답장 전송을 요청했어요.');
   button('예식 정보 다시 보기', showWedding);
