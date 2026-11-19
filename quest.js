@@ -23,7 +23,7 @@ const speakers = {
 const date = parameter(['date'], '2027-01-15');
 const time = parameter(['time'], '오후 1시');
 const reply = {name:'', wedding:'', lunch:'', note:''};
-const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','편지 봉인 완료'];
+const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','초대에 답했어요'];
 const scene = document.querySelector('.scene');
 byId('signature').textContent = '사랑을 담아, ' + couple;
 const address = parameter(['address'], '');
@@ -315,7 +315,7 @@ function review() {
 }
 function done() {
   render(5, 'both', '별빛 마을에 들러줘서 고마워요!', '♥', '✦ ♥ ✦');
-  byId('objective').textContent = '답장 봉인 완료';
+  byId('objective').textContent = '초대에 답했어요';
   if (reply.wedding === '참석') paragraph('눈 오는 날, 예식장에서 반갑게 인사해요.');
   paragraph('법원 예식 ' + reply.wedding + (reply.wedding === '참석' ? ' · 식사 ' + reply.lunch : ''));
   paragraph('답장 전송을 요청했어요.');
