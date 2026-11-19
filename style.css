@@ -184,3 +184,70 @@ figure img { width: 128px; }
   65% { scale: 1.3; }
   100% { scale: 1; }
 }
+
+/* A small masthead keeps the map and cue sheet in reach on short screens. */
+.keepsake {
+  top: 9px; right: 10px; display: flex; align-items: center; gap: 4px;
+  width: auto; padding: 0 8px; font-size: 13px; z-index: 3;
+}
+.keepsake img { width: 24px; }
+.landscape .hud { justify-content: start; gap: 5px; right: 110px; align-items: start; }
+.title { top: 0; padding: 52px 10px 24px; background: linear-gradient(#202e4a99, transparent); pointer-events: none; }
+.title h1 { font-size: clamp(30px, 5vw, 60px); }
+.title p { color: #fff4dc; font-weight: 650; overflow-wrap: anywhere; }
+.scene[data-chapter="0"] .landscape::after {
+  content: ''; position: absolute; width: 5px; height: 3px; bottom: 2%; left: 46%;
+  background: #8293a4; box-shadow: 9px -3px #899aac, 9px -9px #8095ab, 18px -13px #9aabba;
+}
+.scene[data-chapter="1"] #item { bottom: calc(3% + 28px); left: calc(50% + 28px); }
+.scene[data-chapter="1"] #item img { width: 54px; }
+#paper:not([hidden]) {
+  position: relative; z-index: 2; width: min(82%, 365px); margin: 64px auto 18px;
+  padding: 16px 22px; color: #563c32; background: #fff2d4;
+  border: 2px solid #a47c59; border-bottom: 4px double #a47c59;
+  box-shadow: 4px 5px #51415180; animation: unfold .48s steps(7); transform-origin: center bottom;
+}
+#paper small, #paper .signature { color: #815746; }
+#paper h2 { margin: 4px 0; font-family: Georgia, serif; }
+#paper p { margin: 8px 0; font-size: 15px; line-height: 1.65; word-break: keep-all; overflow-wrap: anywhere; }
+#paper .signature { text-align: right; font-size: 13px; }
+.scene[data-chapter="2"] .landscape { flex-basis: auto; display: grid; align-items: center; }
+.scene[data-chapter="2"] .villagers, .scene[data-chapter="2"] #item { display: none; }
+.conversation { max-width: 720px; }
+.dialog figure::after {
+  content: ''; position: absolute; pointer-events: none; inset: 3px;
+}
+.scene[data-speaker="bride"] figure::after { background: linear-gradient(90deg, #26324655 44%, transparent 52%); }
+.scene[data-speaker="groom"] figure::after { background: linear-gradient(90deg, transparent 48%, #26324655 56%); }
+#mood { z-index: 1; }
+.scene[data-chapter="4"] .landscape { flex-basis: 130px; background-position: center 74%; }
+.scene[data-chapter="4"] .dialog.turn-page { animation: ink-in .18s ease-out; }
+.scene[data-chapter="4"] .turn-page figure { animation: none; }
+@keyframes ink-in { from { opacity: .88; } to { opacity: 1; } }
+.scene[data-task="lunch"] #item {
+  bottom: 6px; width: 27px; height: 12px; background: #faf0da;
+  border: 3px double #8193aa; border-radius: 50%; box-shadow: -18px 0 0 -4px #e8e6dc, 18px 0 0 -4px #e8e6dc;
+}
+.scene[data-chapter="5"] .villagers { display: block; animation: winter-bow .75s steps(5); transform-origin: bottom; }
+@keyframes winter-bow { 50% { transform: translateX(-50%) scaleY(.88); } }
+#content label { display: block; margin-bottom: 4px; font-weight: 650; }
+#content #name-error { color: #882e26; }
+#name-error:empty { display: none; }
+#actions .back { flex: 0 0 auto; background: transparent; box-shadow: none; border-color: transparent; font-weight: 500; }
+#actions .back::before { content: '‹'; }
+#book-details .reply-line { padding: 8px 2px; }
+#letter-book form { margin-top: 10px; }
+@media (max-width: 620px) {
+  .scene[data-chapter="4"] { min-height: min(78svh, 660px); }
+  .scene[data-chapter="4"] .landscape { flex-basis: 68px; }
+  .scene[data-task="review"] .dialog { gap: 4px 10px; }
+  .scene[data-task="review"] #content p { font-size: 14px; }
+  .scene[data-task="review"] .reply-line { line-height: 1.25; }
+  .title h1 { font-size: clamp(28px, 8vw, 40px); }
+}
+#actions button::before {
+  content: ''; display: inline-block; border: 4px solid transparent;
+  border-left: 6px solid #96492f; border-right: 0;
+}
+#actions .back::before { content: ''; transform: rotate(180deg); }
+.landscape .hud { z-index: 1; pointer-events: none; }

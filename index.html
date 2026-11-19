@@ -1,1 +1,52 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#192439"><title>Once Upon a Valley · 겨울 마을의 초대장</title><link rel="stylesheet" href="style.css?v=2"><script src="effects.js?v=2" defer></script><script src="quest.js" defer></script></head><body><header><b><i>✦</i> Valley Post</b><button type="button" id="sound" aria-label="게임 효과음" aria-pressed="true">♫ 소리 켜짐</button></header><main><section class="scene" aria-label="눈 내리는 겨울 마을"><div class="landscape"><div class="hud"><span>❄ &nbsp; 겨울 · 1월</span><span id="place">⌖ &nbsp; 별빛 마을</span></div><button class="keepsake" id="keepsake" aria-label="받은 초대장 다시 읽기" hidden><img src="assets/opened.png" alt=""></button><div class="title"><small>✦　겨울 마을의 결혼식　✦</small><h1>Once Upon a Valley</h1><p>눈 내리는 마을에서 도착한 작은 초대장</p></div><div id="snow" aria-hidden="true"></div><img class="villagers" src="assets/village-couple.png" alt=""><div id="item"></div></div><div class="quest"><span>✦ &nbsp; 진행 중인 퀘스트</span><strong id="objective"></strong><small id="count"></small></div><section class="dialog" aria-live="polite"><figure><img src="assets/couple.png" alt="턱시도를 입은 신랑과 베일을 쓴 신부의 초상화"><span id="mood">♡</span></figure><div class="conversation"><small id="speaker"></small><h2 id="speech"></h2><div id="content"></div><div id="actions"></div></div></section></section><footer>✦　 ONCE UPON A VALLEY　 ✦</footer></main><dialog id="letter-book"><h2>우리의 결혼식</h2><div id="book-details"></div><form method="dialog"><button>대화로 돌아가기</button></form></dialog></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#192439">
+  <meta name="description" content="눈 내리는 겨울 마을에서 두 사람의 결혼 초대장을 열어 보세요.">
+  <meta property="og:title" content="Once Upon a Valley · 겨울 마을의 결혼식">
+  <meta property="og:description" content="눈길 끝에서 편지 한 통이 기다리고 있어요. 두 사람의 결혼식에 초대합니다.">
+  <meta property="og:image" content="https://loop-by.github.io/once-upon-a-valley/assets/invitation-preview.png">
+  <meta property="og:image:alt" content="노을 지는 겨울 마을에서 하객을 기다리는 신랑과 신부">
+  <title>Once Upon a Valley · 겨울 마을의 초대장</title>
+  <link rel="stylesheet" href="style.css?v=3">
+  <script src="effects.js?v=2" defer></script>
+  <script src="quest.js?v=3" defer></script>
+</head>
+<body>
+  <header>
+    <b><i>✦</i> 별빛 마을 우체국</b>
+    <button type="button" id="sound" aria-label="게임 효과음" aria-pressed="true">♫ 소리 켜짐</button>
+  </header>
+  <main>
+    <section class="scene" aria-label="겨울 마을 결혼 퀘스트">
+      <div class="landscape">
+        <div class="hud"><span>❄　겨울 · 1월</span><span id="place">별빛 마을</span></div>
+        <button class="keepsake" id="keepsake"><img src="assets/opened.png" alt="">예식 정보</button>
+        <div class="title"><h1>Once Upon a Valley</h1><p id="welcome-names"></p></div>
+        <div id="snow" aria-hidden="true"></div>
+        <img class="villagers" src="assets/village-couple.png" alt="">
+        <div id="item"></div>
+        <article id="paper" hidden>
+          <small>소중한 당신에게</small><h2>우리, 결혼해요!</h2>
+          <p>이번 겨울, 우리가 부부가 돼요. 그날 고개를 들었을 때 당신 얼굴이 보이면 참 좋겠어요.</p>
+          <p class="signature" id="signature"></p>
+        </article>
+      </div>
+      <div class="quest"><span id="quest-label">✦　퀘스트</span><strong id="objective"></strong><small id="count"></small></div>
+      <section class="dialog">
+        <figure><img src="assets/couple.png" alt=""><span id="mood" aria-hidden="true">♡</span></figure>
+        <div class="conversation">
+          <small id="speaker"></small><h2 id="speech" tabindex="-1"></h2>
+          <div id="content"></div><div id="actions"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+  <dialog id="letter-book" aria-labelledby="book-title">
+    <h2 id="book-title"></h2><div id="book-details"></div>
+    <form method="dialog"><button>대화로 돌아가기</button></form>
+  </dialog>
+</body>
+</html>

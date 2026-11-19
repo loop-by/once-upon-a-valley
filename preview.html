@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>초대 링크 준비 · 별빛 마을 우체국</title>
+  <link rel="stylesheet" href="style.css?v=3">
+  <style>main{max-width:560px}label{display:block}input{display:block}output{display:block;overflow-wrap:anywhere;margin:16px 0}output a{color:#ffe2ac}</style>
+</head>
+<body><main>
+  <h1>초대 링크 준비</h1>
+  <form id="builder">
+    <label>신랑 이름<input name="groom" maxlength="80"></label>
+    <label>신부 이름<input name="bride" maxlength="80"></label>
+    <label>예식 날짜<input type="date" name="date"></label>
+    <label>예식장 현지 시간<input type="time" name="time"></label>
+    <label>확인된 예식장 주소 (선택)<input name="address" maxlength="80"></label>
+    <label>점심 시간과 장소 (선택)<input name="lunchDetails" maxlength="80"></label>
+    <output><a id="link" target="_blank" rel="noopener"></a></output>
+    <button type="button" id="copy">초대 링크 복사</button>
+  </form>
+  <script>
+    const form = document.querySelector('form');
+    const link = document.getElementById('link');
+    const copy = document.getElementById('copy');
+    function update() {
+      const url = new URL('./', location.href);
+      for (const [key, value] of new FormData(form)) {
+        if (value.trim()) url.searchParams.set(key, value.trim());
+      }
+      link.href = url.href;
+      link.textContent = decodeURI(url.href);
+      copy.textContent = '초대 링크 복사';
+    }
+    form.oninput = update;
+    form.onsubmit = event => event.preventDefault();
+    copy.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(link.href);
+        copy.textContent = '복사했어요';
+      } catch {
+        copy.textContent = '위 링크를 길게 눌러 복사해 주세요';
+      }
+    };
+    update();
+  </script>
+</main></body></html>
