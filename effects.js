@@ -11,14 +11,22 @@ const questTransition = (() => {
   }));
   let enabled = true;
   let playing;
-  let blocked = false;
+  const music = document.getElementById('background-music');
+  music.volume = 0.35;
   try {
     enabled = localStorage.getItem(preference) !== 'off';
   } catch { /* Keep the in-session setting when storage is unavailable. */ }
 
   function updateToggle() {
-    toggle.textContent = blocked ? '♫ 효과음 다시 켜기' : enabled ? '♫ 효과음 켜짐' : '♪ 효과음 꺼짐';
-    toggle.setAttribute('aria-pressed', String(enabled && !blocked));
+    const on = enabled && !music.paused;
+    toggle.textContent = on ? '♫ 음악 켜짐' : '♪ 음악 꺼짐';
+    toggle.setAttribute('aria-pressed', String(on));
+  }
+  function playMusic() {
+    if (enabled && music.paused) music.play().catch(updateToggle);
+  }
+  function resumeOnGesture(event) {
+    if (!toggle.contains(event.target)) playMusic();
   }
   function stop() {
     if (!playing) return;
@@ -31,26 +39,30 @@ const questTransition = (() => {
     const clip = clips[cue];
     clip.currentTime = 0;
     playing = clip;
-    clip.play().then(() => {
-      if (playing === clip && blocked) {
-        blocked = false;
-        updateToggle();
-      }
-    }).catch(error => {
-      if (error.name === 'AbortError' || playing !== clip) return;
-      blocked = true;
-      updateToggle();
-    });
+    clip.play().catch(() => { /* A cue can be interrupted by the next action. */ });
   }
-  updateToggle();
+
+  music.addEventListener('playing', updateToggle);
+  music.addEventListener('pause', updateToggle);
+  document.addEventListener('click', resumeOnGesture, true);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') resumeOnGesture(event);
+  }, true);
+
   toggle.addEventListener('click', () => {
-    enabled = blocked || !enabled;
-    blocked = false;
-    updateToggle();
+    enabled = !enabled || music.paused;
     try { localStorage.setItem(preference, enabled ? 'on' : 'off'); } catch {}
-    if (enabled) chime('step');
-    else stop();
+    if (enabled) {
+      playMusic();
+      chime('step');
+    } else {
+      music.pause();
+      stop();
+    }
+    updateToggle();
   });
+  updateToggle();
+  playMusic();
   return (panel, cue) => {
     chime(cue);
     panel.classList.remove('turn-page');
@@ -58,16 +70,3 @@ const questTransition = (() => {
     panel.classList.add('turn-page');
   };
 })();
-
-const backgroundMusic = document.getElementById('background-music');
-const firstChoices = document.getElementById('actions');
-backgroundMusic.volume = 0.35;
-function startBackgroundMusic(event) {
-  if (!event.target.closest('button')) return;
-  firstChoices.removeEventListener('click', startBackgroundMusic);
-  backgroundMusic.play().catch(() => { /* The native play control remains available. */ });
-}
-firstChoices.addEventListener('click', startBackgroundMusic);
-backgroundMusic.addEventListener('play', () => {
-  firstChoices.removeEventListener('click', startBackgroundMusic);
-}, { once: true });

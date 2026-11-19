@@ -10,15 +10,15 @@
   <meta property="og:image" content="https://loop-by.github.io/once-upon-a-valley/assets/invitation-preview-bouquet.png">
   <meta property="og:image:alt" content="노을 지는 겨울 마을에서 하객을 기다리는 신랑과 신부">
   <title>Once Upon a Valley · 겨울 마을의 초대장</title>
-  <link rel="stylesheet" href="style.css?v=9">
-  <script src="effects.js?v=4" defer></script>
+  <link rel="stylesheet" href="style.css?v=10">
+  <script src="effects.js?v=5" defer></script>
   <script src="rsvp.js?v=4" defer></script>
   <script src="quest.js?v=10" defer></script>
 </head>
 <body>
   <header>
     <b><i>✦</i> 별빛 마을 우체국</b>
-    <button type="button" id="sound" aria-label="게임 효과음" aria-pressed="true">♫ 효과음 켜짐</button>
+    <button type="button" id="sound" aria-label="배경음악 및 효과음" aria-pressed="false">♪ 음악 꺼짐</button>
   </header>
   <main>
     <section class="scene" aria-label="겨울 마을 결혼 퀘스트">
@@ -44,10 +44,7 @@
         </div>
       </section>
     </section>
-    <div id="music">
-      <label for="background-music">♫ 배경 음악</label>
-      <audio id="background-music" aria-label="배경 음악" src="assets/audio/wedding-theme.mp3" controls loop preload="none"></audio>
-    </div>
+    <audio id="background-music" src="assets/audio/wedding-theme.mp3" loop preload="none"></audio>
   </main>
   <dialog id="letter-book" aria-labelledby="book-title">
     <h2 id="book-title"></h2><div id="book-details"></div>
