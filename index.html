@@ -10,8 +10,8 @@
   <meta property="og:image" content="https://loop-by.github.io/once-upon-a-valley/assets/invitation-preview-bouquet.png">
   <meta property="og:image:alt" content="노을 지는 겨울 마을에서 하객을 기다리는 신랑과 신부">
   <title>Once Upon a Valley · 겨울 마을의 초대장</title>
-  <link rel="stylesheet" href="style.css?v=8">
-  <script src="effects.js?v=3" defer></script>
+  <link rel="stylesheet" href="style.css?v=9">
+  <script src="effects.js?v=4" defer></script>
   <script src="rsvp.js?v=4" defer></script>
   <script src="quest.js?v=10" defer></script>
 </head>
@@ -44,16 +44,10 @@
         </div>
       </section>
     </section>
-    <details id="music">
-      <summary>♫ 배경 음악</summary>
-      <div id="music-player"></div>
-      <template id="music-embed">
-        <iframe title="청첩장 배경 음악" allow="autoplay; encrypted-media"
-          referrerpolicy="strict-origin-when-cross-origin"
-          src="https://www.youtube-nocookie.com/embed/OCuFNpaUGnU?autoplay=1&amp;playsinline=1&amp;loop=1&amp;playlist=OCuFNpaUGnU"></iframe>
-      </template>
-      <a href="https://www.youtube.com/watch?v=OCuFNpaUGnU" target="_blank" rel="noopener noreferrer">YouTube에서 듣기 ↗</a>
-    </details>
+    <div id="music">
+      <label for="background-music">♫ 배경 음악</label>
+      <audio id="background-music" aria-label="배경 음악" src="assets/audio/wedding-theme.mp3" controls loop preload="none"></audio>
+    </div>
   </main>
   <dialog id="letter-book" aria-labelledby="book-title">
     <h2 id="book-title"></h2><div id="book-details"></div>

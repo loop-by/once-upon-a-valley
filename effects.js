@@ -59,13 +59,15 @@ const questTransition = (() => {
   };
 })();
 
-const music = document.getElementById('music');
-const musicPlayer = document.getElementById('music-player');
-music.addEventListener('toggle', () => {
-  if (music.open) {
-    const embed = document.getElementById('music-embed');
-    musicPlayer.replaceChildren(embed.content.cloneNode(true));
-  } else {
-    musicPlayer.replaceChildren();
-  }
-});
+const backgroundMusic = document.getElementById('background-music');
+const firstChoices = document.getElementById('actions');
+backgroundMusic.volume = 0.35;
+function startBackgroundMusic(event) {
+  if (!event.target.closest('button')) return;
+  firstChoices.removeEventListener('click', startBackgroundMusic);
+  backgroundMusic.play().catch(() => { /* The native play control remains available. */ });
+}
+firstChoices.addEventListener('click', startBackgroundMusic);
+backgroundMusic.addEventListener('play', () => {
+  firstChoices.removeEventListener('click', startBackgroundMusic);
+}, { once: true });
