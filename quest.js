@@ -21,7 +21,7 @@ const speakers = {
   both: couple,
 };
 const date = parameter(['date'], '2027-01-15');
-const time = parameter(['time'], '오후 1시');
+const time = parameter(['time'], '오후 1시 30분');
 const reply = {name:'', wedding:'', lunch:'', note:''};
 const chapters = ['별빛 마을에서 인사하기','봉인된 초대장 열기','초대장 펼쳐 보기','법원으로 향하기','답장 작성하기','초대에 답했어요'];
 const scene = document.querySelector('.scene');
