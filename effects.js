@@ -9,24 +9,21 @@ const questTransition = (() => {
     clip.preload = 'auto';
     return [cue, clip];
   }));
-  let enabled = true;
+  const prompt = document.getElementById('music-prompt');
+  const musicOn = document.getElementById('music-on');
+  const musicOff = document.getElementById('music-off');
+  let enabled = false;
   let playing;
   const music = document.getElementById('background-music');
   music.volume = 0.35;
   try {
-    enabled = localStorage.getItem(preference) !== 'off';
+    if (localStorage.getItem(preference) === 'off') musicOff.autofocus = true;
   } catch { /* Keep the in-session setting when storage is unavailable. */ }
 
   function updateToggle() {
     const on = enabled && !music.paused;
     toggle.textContent = on ? '♫ 음악 켜짐' : '♪ 음악 꺼짐';
     toggle.setAttribute('aria-pressed', String(on));
-  }
-  function playMusic() {
-    if (enabled && music.paused) music.play().catch(updateToggle);
-  }
-  function resumeOnGesture(event) {
-    if (!toggle.contains(event.target)) playMusic();
   }
   function stop() {
     if (!playing) return;
@@ -44,25 +41,35 @@ const questTransition = (() => {
 
   music.addEventListener('playing', updateToggle);
   music.addEventListener('pause', updateToggle);
-  document.addEventListener('click', resumeOnGesture, true);
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Enter' || event.key === ' ') resumeOnGesture(event);
-  }, true);
 
-  toggle.addEventListener('click', () => {
-    enabled = !enabled || music.paused;
-    try { localStorage.setItem(preference, enabled ? 'on' : 'off'); } catch {}
-    if (enabled) {
-      playMusic();
-      chime('step');
+  function setSound(on) {
+    enabled = on;
+    try { localStorage.setItem(preference, on ? 'on' : 'off'); } catch {}
+    if (on) {
+      music.play().catch(error => {
+        if (error.name !== 'AbortError' && music.paused) {
+          enabled = false;
+          updateToggle();
+        }
+      });
     } else {
       music.pause();
       stop();
     }
     updateToggle();
+  }
+  toggle.addEventListener('click', () => setSound(!enabled || music.paused));
+  musicOn.addEventListener('click', () => {
+    setSound(true);
+    prompt.close();
   });
-  updateToggle();
-  playMusic();
+  musicOff.addEventListener('click', () => {
+    setSound(false);
+    prompt.close();
+  });
+  prompt.addEventListener('cancel', () => setSound(false));
+  prompt.addEventListener('close', () => toggle.focus({preventScroll: true}));
+  prompt.showModal();
   return (panel, cue) => {
     chime(cue);
     panel.classList.remove('turn-page');

@@ -10,8 +10,8 @@
   <meta property="og:image" content="https://loop-by.github.io/once-upon-a-valley/assets/invitation-preview-bouquet.png">
   <meta property="og:image:alt" content="노을 지는 겨울 마을에서 하객을 기다리는 신랑과 신부">
   <title>Once Upon a Valley · 겨울 마을의 초대장</title>
-  <link rel="stylesheet" href="style.css?v=10">
-  <script src="effects.js?v=5" defer></script>
+  <link rel="stylesheet" href="style.css?v=11">
+  <script src="effects.js?v=6" defer></script>
   <script src="rsvp.js?v=4" defer></script>
   <script src="quest.js?v=10" defer></script>
 </head>
@@ -46,6 +46,13 @@
     </section>
     <audio id="background-music" src="assets/audio/wedding-theme.mp3" loop preload="none"></audio>
   </main>
+  <dialog id="music-prompt" aria-labelledby="music-title">
+    <h2 id="music-title">배경음악을 켤까요?</h2>
+    <div class="music-choices">
+      <button type="button" id="music-on">♫ 음악 켜기</button>
+      <button type="button" id="music-off">소리 없이 보기</button>
+    </div>
+  </dialog>
   <dialog id="letter-book" aria-labelledby="book-title">
     <h2 id="book-title"></h2><div id="book-details"></div>
     <form method="dialog"><button>대화로 돌아가기</button></form>

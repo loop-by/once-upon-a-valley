@@ -81,8 +81,8 @@ figure img { width: 128px; }
 .event-info dt { color: #675046; }
 .event-info dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
 .map-link, #content .map-link { display: inline-flex; align-items: center; min-height: 44px; padding: 4px 12px; border: 2px solid #a98660; margin: 4px 0 12px; }
-#letter-book { width: min(360px, 92vw); color: #41323a; background: #f4e3c1; border: 6px ridge #a78260; }
-#letter-book::backdrop { background: #182335b8; }
+#music-prompt, #letter-book { width: min(360px, 92vw); color: #41323a; background: #f4e3c1; border: 6px ridge #a78260; }
+#music-prompt::backdrop, #letter-book::backdrop { background: #182335b8; }
 .reply-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid #cdaf86; }
 .reply-line span, #speech, #speaker { overflow-wrap: anywhere; }
 .reply-line button { flex: none; min-height: 44px; color: #554236; background: transparent; border: 0; text-decoration: underline; }
@@ -266,3 +266,9 @@ figure img { width: 128px; }
 .scene[data-chapter="1"] #actions:empty { display: none; }
 .scene[data-chapter="1"] .envelope:focus-visible { outline: 2px dashed #ffe8ac; outline-offset: 2px; }
 .scene:not(.court) .landscape { background-image: url(assets/chapel-village.png); }
+
+#music-prompt { padding: 22px; }
+#music-prompt h2 { margin: 0 0 16px; }
+.music-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.music-choices button { flex: 1 0 auto; min-height: 44px; }
+#music-off { background: #ffefd0; color: #553e32; border-color: #947052; }
